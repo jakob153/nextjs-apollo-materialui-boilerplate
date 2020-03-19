@@ -1,7 +1,7 @@
 import React, { FC, useState, useContext } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { useHistory } from 'react-router-dom';
-import { Box, Button, Link, TextField, makeStyles, Theme } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
+import { Button, Link, TextField, makeStyles, Theme } from '@material-ui/core';
 
 import { UserContext } from './UserContext';
 
@@ -39,8 +39,9 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [logInMutation] = useMutation<LoginResponse>(LOGIN_MUTATION);
   const { setUser } = useContext(UserContext);
-  const history = useHistory();
   const classes = useStyles();
+
+  const { email, password } = form;
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -49,8 +50,6 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const { email, password } = form;
 
     try {
       const response = await logInMutation({ variables: { input: { email, password } } });
@@ -73,11 +72,6 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
     }
   };
 
-  const handleResetPasswort = () => {
-    handleClose && handleClose({}, 'backdropClick');
-    history.push('/resetPassword');
-  };
-
   return (
     <form className={classes.marginTop2} action="POST" onSubmit={handleSubmit}>
       <TextField
@@ -87,8 +81,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         type="email"
         name="email"
         onChange={handleChange}
-        value={form.email}
-        variant="filled"
+        value={email}
         fullWidth
       />
       <TextField
@@ -98,16 +91,13 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         type="password"
         name="password"
         onChange={handleChange}
-        value={form.password}
-        variant="filled"
+        value={password}
         fullWidth
       />
-      <Box marginBottom={4}>
-        <Link onClick={handleResetPasswort} href="">
-          Forgot Password?
-        </Link>
-      </Box>
-      <Button type="submit" disabled={!(form.email && form.password)} fullWidth>
+      <Link component={RouterLink} to="/resetPassword">
+        Forgot Password?
+      </Link>
+      <Button type="submit" disabled={!(email && password)} fullWidth>
         Log In
       </Button>
     </form>

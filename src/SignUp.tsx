@@ -73,7 +73,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         className={classes.marginBottom2}
         onChange={handleChange}
         value={form.email}
-        variant="filled"
         fullWidth
         required
       />
@@ -84,7 +83,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         className={classes.marginBottom2}
         onChange={handleChange}
         value={form.password}
-        variant="filled"
         fullWidth
         required
       />
@@ -95,7 +93,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         className={classes.marginBottom4}
         onChange={handleChange}
         value={form.password2}
-        variant="filled"
         fullWidth
         required
       />

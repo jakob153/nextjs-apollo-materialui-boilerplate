@@ -44,6 +44,7 @@ const ResetPassword: FC<{ setAlert: SetAlert }> = ({ setAlert }) => {
       if (response.errors) {
         const errorMessages = response.errors.map(error => error.message);
         setAlert({ variant: 'error', messages: [...errorMessages], show: true });
+        return;
       }
       setAlert({
         variant: 'success',
@@ -67,7 +68,6 @@ const ResetPassword: FC<{ setAlert: SetAlert }> = ({ setAlert }) => {
             type="email"
             onChange={handleChange}
             value={email}
-            variant="filled"
             fullWidth
           />
           <Button type="submit" fullWidth>
