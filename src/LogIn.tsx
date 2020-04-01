@@ -1,5 +1,5 @@
 import React, { FC, useState, useContext } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button, Link, TextField, makeStyles, Theme } from '@material-ui/core';
 
@@ -45,7 +45,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = event.target;
-    setForm(prevState => ({ ...prevState, [name]: value }));
+    setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -54,7 +54,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
     try {
       const response = await logInMutation({ variables: { input: { email, password } } });
       if (response.errors) {
-        const errorMessages = response.errors.map(error => error.message);
+        const errorMessages = response.errors.map((error) => error.message);
         setAlert({
           variant: 'error',
           messages: [...errorMessages],

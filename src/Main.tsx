@@ -36,7 +36,7 @@ const Main: FC<RouteChildrenProps> = ({ history }) => {
 
   const handleAlertClose = () => {
     history.push(history.location.pathname);
-    setAlert(prevState => ({ ...prevState, show: false }));
+    setAlert((prevState) => ({ ...prevState, show: false }));
   };
 
   return (

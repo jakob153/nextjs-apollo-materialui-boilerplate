@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button, Paper, TextField, makeStyles, Theme } from '@material-ui/core';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { RouteChildrenProps } from 'react-router-dom';
 import qs from 'qs';
 
@@ -26,7 +26,7 @@ const ResetPasswordConfirm: FC<RouteChildrenProps> = ({ location }) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = event.target;
-    setForm(prevState => ({ ...prevState, [name]: value }));
+    setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

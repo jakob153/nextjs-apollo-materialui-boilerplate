@@ -1,7 +1,7 @@
 import React, { FC, useContext, useState } from 'react';
 import { AppBar, Box, Button, Link, Toolbar, Typography } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AuthModal from './AuthModal';
@@ -32,10 +32,10 @@ const NavBar: FC = () => {
   const [logOutMutation] = useMutation(LOGOUT_MUTATION);
   const classes = useStyles();
   const handleClick = (selectedTab: number) => () => {
-    setShowModal(prevState => ({ open: !prevState.open, selectedTab }));
+    setShowModal((prevState) => ({ open: !prevState.open, selectedTab }));
   };
   const handleClose = () => {
-    setShowModal(prevState => ({ open: !prevState.open, selectedTab: null }));
+    setShowModal((prevState) => ({ open: !prevState.open, selectedTab: null }));
   };
   const handleLogout = () => {
     setUser({ email: '', loggedIn: false });

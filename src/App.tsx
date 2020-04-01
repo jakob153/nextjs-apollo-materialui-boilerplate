@@ -8,8 +8,7 @@ import {
   RouteProps
 } from 'react-router-dom';
 import qs from 'qs';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/client';
 import { CssBaseline, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 
@@ -29,8 +28,11 @@ const theme = createMuiTheme({
 });
 
 export const client = new ApolloClient({
-  uri: process.env.REACT_APP_GRAPHQL_API,
-  credentials: 'include'
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: process.env.REACT_APP_GRAPHQL_API,
+    credentials: 'include'
+  })
 });
 
 interface PrivateRouteProps extends RouteProps {
@@ -46,7 +48,7 @@ const App: FC = () => {
   const PrivateRoute: FC<PrivateRouteProps> = ({ component: Component, condition, ...rest }) => (
     <Route
       {...rest}
-      render={props => (condition ? <Component {...props} /> : <Redirect to="/" />)}
+      render={(props) => (condition ? <Component {...props} /> : <Redirect to="/" />)}
     />
   );
 

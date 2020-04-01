@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 
 import { SetAlert } from './interfaces/Alert';
 
@@ -23,7 +23,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = event.target;
-    setForm(prevState => ({ ...prevState, [name]: value }));
+    setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const validateForm = (password: string, password2: string) => {

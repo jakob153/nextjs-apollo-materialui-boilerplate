@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 export const RESET_PASSWORD_CONFIRM_MUTATION = gql`
   mutation resetPasswordConfirm(

@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button, Container, Paper, TextField, makeStyles, Theme } from '@material-ui/core';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 
 import { RESET_PASSWORD_MUTATION } from './ResetPassword.mutation';
 
@@ -42,7 +42,7 @@ const ResetPassword: FC<{ setAlert: SetAlert }> = ({ setAlert }) => {
         variables: { email }
       });
       if (response.errors) {
-        const errorMessages = response.errors.map(error => error.message);
+        const errorMessages = response.errors.map((error) => error.message);
         setAlert({ variant: 'error', messages: [...errorMessages], show: true });
         return;
       }

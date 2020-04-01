@@ -68,7 +68,7 @@ const Alert: FC<Props> = ({ className, messages, onClose, variant }) => {
       className={classnames(classes[variant], classes.color, className)}
       message={
         <List disablePadding dense>
-          {messages.map(message => (
+          {messages.map((message) => (
             <ListItem key={message}>
               <ListItemIconCustom>
                 <Icon className={classes.iconVariant} />

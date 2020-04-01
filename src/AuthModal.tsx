@@ -39,7 +39,7 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
   const classes = useStyles();
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => setTab(newValue);
-  const handleCloseAlert = () => setAlert(prevState => ({ ...prevState, show: false }));
+  const handleCloseAlert = () => setAlert((prevState) => ({ ...prevState, show: false }));
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
