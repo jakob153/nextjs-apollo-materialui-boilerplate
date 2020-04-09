@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: theme.spacing(8),
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
   marginBottom2: {
-    marginBottom: theme.spacing(2)
-  }
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const ResetPasswordConfirm: FC<RouteChildrenProps> = ({ location }) => {

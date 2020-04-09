@@ -16,7 +16,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
   const [form, setForm] = useState({
     email: '',
     password: '',
-    password2: ''
+    password2: '',
   });
   const classes = useStyles();
   const [signUpMutation] = useMutation(SIGNUP_MUTATION);
@@ -56,7 +56,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
       setAlert({
         variant: 'success',
         messages: ['A Confirmation Link was sent to your Mail.'],
-        show: true
+        show: true,
       });
     } catch (error) {
       // eslint-disable-next-line no-console

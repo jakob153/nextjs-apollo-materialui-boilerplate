@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: theme.spacing(8),
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
   marginBottom2: {
-    marginBottom: theme.spacing(2)
-  }
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 interface ResetPasswordResponse {
@@ -39,7 +39,7 @@ const ResetPassword: FC<{ setAlert: SetAlert }> = ({ setAlert }) => {
     event.preventDefault();
     try {
       const response = await resetPassword({
-        variables: { email }
+        variables: { email },
       });
       if (response.errors) {
         const errorMessages = response.errors.map((error) => error.message);
@@ -49,7 +49,7 @@ const ResetPassword: FC<{ setAlert: SetAlert }> = ({ setAlert }) => {
       setAlert({
         variant: 'success',
         messages: ['Mail was sent successfully'],
-        show: true
+        show: true,
       });
     } catch (error) {
       // eslint-disable-next-line no-console

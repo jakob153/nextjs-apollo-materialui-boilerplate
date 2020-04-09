@@ -11,11 +11,11 @@ import { LOGOUT_MUTATION } from './LogOut.mutation';
 
 const useStyles = makeStyles(() => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 interface ModalState {
@@ -26,7 +26,7 @@ interface ModalState {
 const NavBar: FC = () => {
   const {
     user: { loggedIn },
-    setUser
+    setUser,
   } = useContext(UserContext);
   const [showModal, setShowModal] = useState<ModalState>({ open: false, selectedTab: null });
   const [logOutMutation] = useMutation(LOGOUT_MUTATION);

@@ -10,7 +10,7 @@ import {
   makeStyles,
   withStyles,
   createStyles,
-  Theme
+  Theme,
 } from '@material-ui/core';
 import { CheckCircle, Close, Error, Info, Warning } from '@material-ui/icons';
 import { green, amber } from '@material-ui/core/colors';
@@ -18,38 +18,38 @@ import { green, amber } from '@material-ui/core/colors';
 const ListItemIconCustom = withStyles((theme: Theme) =>
   createStyles({
     root: {
-      minWidth: '40px'
-    }
+      minWidth: '40px',
+    },
   })
 )(ListItemIcon);
 
 const useStyles = makeStyles((theme: Theme) => ({
   success: {
-    backgroundColor: green[600]
+    backgroundColor: green[600],
   },
   error: {
-    backgroundColor: theme.palette.error.dark
+    backgroundColor: theme.palette.error.dark,
   },
   info: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   warning: {
-    backgroundColor: amber[700]
+    backgroundColor: amber[700],
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   color: {
-    color: 'white'
-  }
+    color: 'white',
+  },
 }));
 
 export const variantIcon = {
   success: CheckCircle,
   warning: Warning,
   error: Error,
-  info: Info
+  info: Info,
 };
 
 interface Props {

@@ -5,7 +5,7 @@ import {
   Route,
   Switch,
   RouteComponentProps,
-  RouteProps
+  RouteProps,
 } from 'react-router-dom';
 import qs from 'qs';
 import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/client';
@@ -23,16 +23,16 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: blue,
-    secondary: blue
-  }
+    secondary: blue,
+  },
 });
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
     uri: process.env.REACT_APP_GRAPHQL_API,
-    credentials: 'include'
-  })
+    credentials: 'include',
+  }),
 });
 
 interface PrivateRouteProps extends RouteProps {

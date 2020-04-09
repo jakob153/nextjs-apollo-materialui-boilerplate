@@ -10,8 +10,8 @@ import { RouteChildrenProps } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
   marginTop4: {
-    marginTop: theme.spacing(4)
-  }
+    marginTop: theme.spacing(4),
+  },
 }));
 
 const Main: FC<RouteChildrenProps> = ({ history }) => {
@@ -27,9 +27,9 @@ const Main: FC<RouteChildrenProps> = ({ history }) => {
         messages: [
           params.confirmAccount === 'true'
             ? 'Account Confirmed! You can now log in.'
-            : 'Something went wrong.'
+            : 'Something went wrong.',
         ],
-        show: true
+        show: true,
       });
     }
   }, []);

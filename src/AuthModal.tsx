@@ -7,7 +7,7 @@ import {
   Tab,
   Tabs,
   makeStyles,
-  Theme
+  Theme,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import LogIn from './LogIn';
@@ -18,13 +18,13 @@ import { AlertState } from './interfaces/Alert';
 
 const useStyles = makeStyles((theme: Theme) => ({
   marginTop2: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   closeButton: {
     position: 'absolute',
     top: '1px',
-    right: '1px'
-  }
+    right: '1px',
+  },
 }));
 
 interface Props {
