@@ -1,6 +1,6 @@
-import React, { FC, useState, ComponentType } from 'react';
+import React, { FC, ComponentType, useContext } from 'react';
 import {
-  BrowserRouter,
+  BrowserRouter as Router,
   Redirect,
   Route,
   Switch,
@@ -17,7 +17,7 @@ import Main from './components/Main';
 import ResetPassword from './components/resetPassword/ResetPassword';
 import ResetPasswordConfirm from './components/resetPassword/ResetPasswordConfirm';
 
-import { UserContext } from './UserContext';
+import { UserContext, UserContextProvider } from './components/user/UserContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -42,7 +42,7 @@ interface PrivateRouteProps extends RouteProps {
 }
 
 const App: FC = () => {
-  const [user, setUser] = useState({ loggedIn: false, email: '' });
+  const { user } = useContext(UserContext);
   const params = qs.parse(window.location.search, { ignoreQueryPrefix: true });
 
   const PrivateRoute: FC<PrivateRouteProps> = ({ component: Component, condition, ...rest }) => (
@@ -54,10 +54,10 @@ const App: FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <BrowserRouter>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <UserContext.Provider value={{ user, setUser }}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <UserContextProvider>
+          <Router>
             <Switch>
               <Route exact path="/" component={Main} />
               <Route exact path="/resetPassword" component={ResetPassword} />
@@ -75,9 +75,9 @@ const App: FC = () => {
               />
               <Redirect to="/" />
             </Switch>
-          </UserContext.Provider>
-        </MuiThemeProvider>
-      </BrowserRouter>
+          </Router>
+        </UserContextProvider>
+      </MuiThemeProvider>
     </ApolloProvider>
   );
 };

@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button, Link, TextField, makeStyles, Theme } from '@material-ui/core';
 
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../user/UserContext';
 
 import { AlertState } from '../../types';
 
@@ -53,15 +53,6 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
 
     try {
       const response = await logInMutation({ variables: { input: { email, password } } });
-      if (response.errors) {
-        const errorMessages = response.errors.map((error) => error.message);
-        setAlert({
-          variant: 'error',
-          messages: [...errorMessages],
-          show: true,
-        });
-        return;
-      }
       if (handleClose && response.data) {
         handleClose({}, 'backdropClick');
         setUser({ email: response.data.login.user.email, loggedIn: true });

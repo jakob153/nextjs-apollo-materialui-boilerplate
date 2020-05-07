@@ -41,6 +41,7 @@ const ResetPasswordConfirm: FC<RouteChildrenProps> = ({ location }) => {
       console.error(error);
     }
   };
+
   return (
     <Paper className={classes.paper}>
       <form onSubmit={handleSubmit}>

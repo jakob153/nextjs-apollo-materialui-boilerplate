@@ -41,15 +41,11 @@ const ResetPassword: FC<Props> = ({ setAlert }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
-      const response = await resetPassword({
+      await resetPassword({
         variables: { email },
       });
-      if (response.errors) {
-        const errorMessages = response.errors.map((error) => error.message);
-        setAlert({ variant: 'error', messages: [...errorMessages], show: true });
-        return;
-      }
       setAlert({
         variant: 'success',
         messages: ['Mail was sent successfully'],

@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AuthModal from '../authModal/AuthModal';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../user/UserContext';
 
 import { LOGOUT_MUTATION } from './LogOut.mutation';
 
@@ -31,16 +31,20 @@ const NavBar: FC = () => {
   const [showModal, setShowModal] = useState<ModalState>({ open: false, selectedTab: null });
   const [logOutMutation] = useMutation(LOGOUT_MUTATION);
   const classes = useStyles();
+
   const handleClick = (selectedTab: number) => () => {
     setShowModal((prevState) => ({ open: !prevState.open, selectedTab }));
   };
+
   const handleClose = () => {
     setShowModal((prevState) => ({ open: !prevState.open, selectedTab: null }));
   };
+
   const handleLogout = () => {
     setUser({ email: '', loggedIn: false });
     logOutMutation();
   };
+
   const { open, selectedTab } = showModal;
 
   const renderAuthButtons = () => (
