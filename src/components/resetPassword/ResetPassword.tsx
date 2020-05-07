@@ -1,10 +1,10 @@
-import React, { FC, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { Button, Container, Paper, TextField, makeStyles, Theme } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 
 import { RESET_PASSWORD_MUTATION } from './ResetPassword.mutation';
 
-import { SetAlert } from './interfaces/Alert';
+import { AlertState } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -26,7 +26,11 @@ interface ResetPasswordResponse {
   };
 }
 
-const ResetPassword: FC<{ setAlert: SetAlert }> = ({ setAlert }) => {
+interface Props {
+  setAlert: Dispatch<SetStateAction<AlertState>>;
+}
+
+const ResetPassword: FC<Props> = ({ setAlert }) => {
   const [email, setEmail] = useState('');
   const classes = useStyles();
   const [resetPassword] = useMutation<ResetPasswordResponse>(RESET_PASSWORD_MUTATION);

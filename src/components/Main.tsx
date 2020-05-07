@@ -1,12 +1,12 @@
 import React, { useEffect, useState, FC } from 'react';
 import { Container, makeStyles, Theme } from '@material-ui/core';
-import Navbar from './Navbar';
+import Navbar from './navbar/Navbar';
 import qs from 'qs';
-
-import Alert from './Alert';
-
-import { AlertState } from './interfaces/Alert';
 import { RouteChildrenProps } from 'react-router-dom';
+
+import Alert from './alert/Alert';
+
+import { AlertState } from '../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   marginTop4: {

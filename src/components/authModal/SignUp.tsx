@@ -1,15 +1,25 @@
-import React, { FC, useState } from 'react';
-import { Button, TextField } from '@material-ui/core';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Button, TextField, makeStyles, Theme } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 
-import { SetAlert } from './interfaces/Alert';
+import { AlertState } from '../../types';
 
 import { SIGNUP_MUTATION } from './SignUp.mutation';
 
-import { useStyles } from './SignUp.styles';
+const useStyles = makeStyles((theme: Theme) => ({
+  marginTop2: {
+    marginTop: theme.spacing(2),
+  },
+  marginBottom2: {
+    marginBottom: theme.spacing(2),
+  },
+  marginBottom4: {
+    marginBottom: theme.spacing(4),
+  },
+}));
 
 interface Props {
-  setAlert: SetAlert;
+  setAlert: Dispatch<SetStateAction<AlertState>>;
 }
 
 const SignUp: FC<Props> = ({ setAlert }) => {

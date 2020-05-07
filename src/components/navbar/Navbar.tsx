@@ -4,8 +4,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 
-import AuthModal from './AuthModal';
-import { UserContext } from './UserContext';
+import AuthModal from '../authModal/AuthModal';
+import { UserContext } from '../../UserContext';
 
 import { LOGOUT_MUTATION } from './LogOut.mutation';
 

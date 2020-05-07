@@ -1,10 +1,7 @@
-const OFF = 0;
-const ERROR = 2;
-
 module.exports = {
   extends: ['react-app', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
   rules: {
-    '@typescript-eslint/explicit-function-return-type': OFF,
-    'no-console': ERROR,
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'no-console': 'error',
   },
 };

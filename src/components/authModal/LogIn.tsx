@@ -1,13 +1,13 @@
-import React, { FC, useState, useContext } from 'react';
+import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button, Link, TextField, makeStyles, Theme } from '@material-ui/core';
 
-import { UserContext } from './UserContext';
+import { UserContext } from '../../UserContext';
+
+import { AlertState } from '../../types';
 
 import { LOGIN_MUTATION } from './LogIn.mutation';
-
-import { SetAlert } from './interfaces/Alert';
 
 const useStyles = makeStyles((theme: Theme) => ({
   marginTop2: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   handleClose: ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void) | undefined;
-  setAlert: SetAlert;
+  setAlert: Dispatch<SetStateAction<AlertState>>;
 }
 
 interface LoginResponse {

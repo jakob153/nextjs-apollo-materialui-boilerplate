@@ -12,9 +12,9 @@ import {
 import { Close } from '@material-ui/icons';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
-import Alert from './Alert';
+import Alert from '../alert/Alert';
 
-import { AlertState } from './interfaces/Alert';
+import { AlertState } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   marginTop2: {
