@@ -24,10 +24,7 @@ interface ModalState {
 }
 
 const NavBar: FC = () => {
-  const {
-    user: { loggedIn },
-    setUser,
-  } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [showModal, setShowModal] = useState<ModalState>({ open: false, selectedTab: null });
   const [logOutMutation] = useMutation(LOGOUT_MUTATION);
   const classes = useStyles();
@@ -74,7 +71,7 @@ const NavBar: FC = () => {
                 MyApp
               </Link>
             </Typography>
-            {!loggedIn ? renderAuthButtons() : renderLogoutButton()}
+            {!user.loggedIn ? renderAuthButtons() : renderLogoutButton()}
           </Toolbar>
         </AppBar>
       </Box>

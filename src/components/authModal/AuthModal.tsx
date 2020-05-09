@@ -4,7 +4,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  Tab,
+  Tab as TabComponent,
   Tabs,
   makeStyles,
   Theme,
@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+enum Tab {
+  LogIn,
+  SignUp,
+}
+
 interface Props {
   open: boolean;
   handleClose: ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void) | undefined;
@@ -38,16 +43,20 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
   const [alert, setAlert] = useState<AlertState>({ variant: 'info', messages: [], show: false });
   const classes = useStyles();
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => setTab(newValue);
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setTab(newValue);
+  };
 
-  const handleCloseAlert = () => setAlert((prevState) => ({ ...prevState, show: false }));
+  const handleCloseAlert = () => {
+    setAlert((prevState) => ({ ...prevState, show: false }));
+  };
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
       <DialogTitle>
         <Tabs value={tab} onChange={handleChange}>
-          <Tab label="Log In" />
-          <Tab label="Sign Up" />
+          <TabComponent label="Log In" />
+          <TabComponent label="Sign Up" />
         </Tabs>
       </DialogTitle>
       {alert.show && (
@@ -59,8 +68,8 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
         />
       )}
       <DialogContent>
-        {tab === 0 && <LogIn setAlert={setAlert} handleClose={handleClose} />}
-        {tab === 1 && <SignUp setAlert={setAlert} />}
+        {tab === Tab.LogIn && <LogIn setAlert={setAlert} handleClose={handleClose} />}
+        {tab === Tab.SignUp && <SignUp setAlert={setAlert} />}
       </DialogContent>
       <IconButton
         className={classes.closeButton}

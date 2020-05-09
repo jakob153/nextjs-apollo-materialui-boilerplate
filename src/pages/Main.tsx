@@ -1,10 +1,10 @@
 import React, { useEffect, useState, FC } from 'react';
 import { Container, makeStyles, Theme } from '@material-ui/core';
-import Navbar from './navbar/Navbar';
+import Navbar from '../components/navbar/Navbar';
 import qs from 'qs';
 import { RouteChildrenProps } from 'react-router-dom';
 
-import Alert from './alert/Alert';
+import Alert from '../components/alert/Alert';
 
 import { AlertState } from '../types';
 
@@ -43,16 +43,16 @@ const Main: FC<RouteChildrenProps> = ({ history }) => {
     <>
       <Navbar />
       <Container>
-        {alert.show && (
-          <Alert
-            className={classes.marginTop4}
-            variant={alert.variant}
-            messages={alert.messages}
-            onClose={handleAlertClose}
-          />
-        )}
         <h5>MAIN PAGE</h5>
       </Container>
+      {alert.show && (
+        <Alert
+          className={classes.marginTop4}
+          variant={alert.variant}
+          messages={alert.messages}
+          onClose={handleAlertClose}
+        />
+      )}
     </>
   );
 };

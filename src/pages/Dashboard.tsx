@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Navbar from './navbar/Navbar';
+import Navbar from '../components/navbar/Navbar';
 
 const Dashboard: FC = () => (
   <>

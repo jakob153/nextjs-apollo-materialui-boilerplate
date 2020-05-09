@@ -25,8 +25,7 @@ const ResetPasswordConfirm: FC<RouteChildrenProps> = ({ location }) => {
   const [resetPasswordConfirm] = useMutation(RESET_PASSWORD_CONFIRM_MUTATION);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setForm((prevState) => ({ ...prevState, [name]: value }));
+    setForm((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

@@ -12,10 +12,10 @@ import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/c
 import { CssBaseline, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 
-import Dashboard from './components/Dashboard';
-import Main from './components/Main';
-import ResetPassword from './components/resetPassword/ResetPassword';
-import ResetPasswordConfirm from './components/resetPassword/ResetPasswordConfirm';
+import Dashboard from './pages/Dashboard';
+import Main from './pages/Main';
+import ResetPassword from './pages/ResetPassword';
+import ResetPasswordConfirm from './pages/ResetPasswordConfirm';
 
 import { UserContext, UserContextProvider } from './components/user/UserContext';
 

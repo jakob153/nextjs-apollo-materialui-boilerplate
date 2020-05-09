@@ -41,18 +41,17 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
   const { setUser } = useContext(UserContext);
   const classes = useStyles();
 
-  const { email, password } = form;
-
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setForm((prevState) => ({ ...prevState, [name]: value }));
+    setForm((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      const response = await logInMutation({ variables: { input: { email, password } } });
+      const response = await logInMutation({
+        variables: { input: { email: form.email, password: form.password } },
+      });
       if (handleClose && response.data) {
         handleClose({}, 'backdropClick');
         setUser({ email: response.data.login.user.email, loggedIn: true });
@@ -72,7 +71,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         type="email"
         name="email"
         onChange={handleChange}
-        value={email}
+        value={form.email}
         fullWidth
       />
       <TextField
@@ -82,13 +81,13 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         type="password"
         name="password"
         onChange={handleChange}
-        value={password}
+        value={form.password}
         fullWidth
       />
       <Link component={RouterLink} to="/resetPassword">
         Forgot Password?
       </Link>
-      <Button type="submit" disabled={!(email && password)} fullWidth>
+      <Button type="submit" disabled={!(form.email && form.password)} fullWidth>
         Log In
       </Button>
     </form>

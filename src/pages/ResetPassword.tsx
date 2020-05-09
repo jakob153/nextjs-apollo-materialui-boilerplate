@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client';
 
 import { RESET_PASSWORD_MUTATION } from './ResetPassword.mutation';
 
-import { AlertState } from '../../types';
+import { AlertState } from '../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
