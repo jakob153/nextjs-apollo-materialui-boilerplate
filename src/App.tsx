@@ -8,8 +8,17 @@ import {
   RouteProps,
 } from 'react-router-dom';
 import qs from 'qs';
-import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/client';
-import { CssBaseline, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  HttpLink,
+} from '@apollo/client';
+import {
+  CssBaseline,
+  MuiThemeProvider,
+  createMuiTheme,
+} from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 
 import Dashboard from './pages/Dashboard';
@@ -17,7 +26,10 @@ import Main from './pages/Main';
 import ResetPassword from './pages/ResetPassword';
 import ResetPasswordConfirm from './pages/ResetPasswordConfirm';
 
-import { UserContext, UserContextProvider } from './components/user/UserContext';
+import {
+  UserContext,
+  UserContextProvider,
+} from './components/user/UserContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -45,10 +57,16 @@ const App: FC = () => {
   const { user } = useContext(UserContext);
   const params = qs.parse(window.location.search, { ignoreQueryPrefix: true });
 
-  const PrivateRoute: FC<PrivateRouteProps> = ({ component: Component, condition, ...rest }) => (
+  const PrivateRoute: FC<PrivateRouteProps> = ({
+    component: Component,
+    condition,
+    ...rest
+  }) => (
     <Route
       {...rest}
-      render={(props) => (condition ? <Component {...props} /> : <Redirect to="/" />)}
+      render={(props) =>
+        condition ? <Component {...props} /> : <Redirect to="/" />
+      }
     />
   );
 

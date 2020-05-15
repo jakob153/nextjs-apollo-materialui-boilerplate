@@ -1,5 +1,12 @@
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
-import { Button, Container, Paper, TextField, makeStyles, Theme } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  Paper,
+  TextField,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 
 import { RESET_PASSWORD_MUTATION } from './ResetPassword.mutation';
@@ -33,9 +40,13 @@ interface Props {
 const ResetPassword: FC<Props> = ({ setAlert }) => {
   const [email, setEmail] = useState('');
   const classes = useStyles();
-  const [resetPassword] = useMutation<ResetPasswordResponse>(RESET_PASSWORD_MUTATION);
+  const [resetPassword] = useMutation<ResetPasswordResponse>(
+    RESET_PASSWORD_MUTATION
+  );
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setEmail(event.target.value);
   };
 

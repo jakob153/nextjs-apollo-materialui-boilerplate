@@ -34,13 +34,19 @@ enum Tab {
 
 interface Props {
   open: boolean;
-  handleClose: ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void) | undefined;
+  handleClose:
+    | ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void)
+    | undefined;
   selectedTab: number;
 }
 
 const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
   const [tab, setTab] = useState(selectedTab);
-  const [alert, setAlert] = useState<AlertState>({ variant: 'info', messages: [], show: false });
+  const [alert, setAlert] = useState<AlertState>({
+    variant: 'info',
+    messages: [],
+    show: false,
+  });
   const classes = useStyles();
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -68,7 +74,9 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
         />
       )}
       <DialogContent>
-        {tab === Tab.LogIn && <LogIn setAlert={setAlert} handleClose={handleClose} />}
+        {tab === Tab.LogIn && (
+          <LogIn setAlert={setAlert} handleClose={handleClose} />
+        )}
         {tab === Tab.SignUp && <SignUp setAlert={setAlert} />}
       </DialogContent>
       <IconButton

@@ -20,21 +20,34 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const ResetPasswordConfirm: FC<RouteChildrenProps> = ({ location }) => {
-  const [form, setForm] = useState({ oldPassword: '', newPassword: '', newPassword2: '' });
+  const [form, setForm] = useState({
+    oldPassword: '',
+    newPassword: '',
+    newPassword2: '',
+  });
   const classes = useStyles();
   const [resetPasswordConfirm] = useMutation(RESET_PASSWORD_CONFIRM_MUTATION);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    setForm((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setForm((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { oldPassword, newPassword } = form;
-    const { emailToken } = qs.parse(location.search, { ignoreQueryPrefix: true });
+    const { emailToken } = qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+    });
 
     try {
-      resetPasswordConfirm({ variables: { oldPassword, newPassword, emailToken } });
+      resetPasswordConfirm({
+        variables: { oldPassword, newPassword, emailToken },
+      });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -76,7 +89,9 @@ const ResetPasswordConfirm: FC<RouteChildrenProps> = ({ location }) => {
         />
         <Button
           type="submit"
-          disabled={!(form.oldPassword && form.newPassword && form.newPassword2)}
+          disabled={
+            !(form.oldPassword && form.newPassword && form.newPassword2)
+          }
           fullWidth
         >
           Reset Password

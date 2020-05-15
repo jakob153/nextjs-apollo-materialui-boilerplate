@@ -1,5 +1,12 @@
 import React, { FC, useContext, useState } from 'react';
-import { AppBar, Box, Button, Link, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Box,
+  Button,
+  Link,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,7 +32,10 @@ interface ModalState {
 
 const NavBar: FC = () => {
   const { user, setUser } = useContext(UserContext);
-  const [showModal, setShowModal] = useState<ModalState>({ open: false, selectedTab: null });
+  const [showModal, setShowModal] = useState<ModalState>({
+    open: false,
+    selectedTab: null,
+  });
   const [logOutMutation] = useMutation(LOGOUT_MUTATION);
   const classes = useStyles();
 
@@ -67,7 +77,13 @@ const NavBar: FC = () => {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              <Link color="inherit" component={RouterLink} href="#" to="/" underline="none">
+              <Link
+                color="inherit"
+                component={RouterLink}
+                href="#"
+                to="/"
+                underline="none"
+              >
                 MyApp
               </Link>
             </Typography>
@@ -76,7 +92,11 @@ const NavBar: FC = () => {
         </AppBar>
       </Box>
       {selectedTab !== null && (
-        <AuthModal open={open} selectedTab={selectedTab} handleClose={handleClose} />
+        <AuthModal
+          open={open}
+          selectedTab={selectedTab}
+          handleClose={handleClose}
+        />
       )}
     </>
   );

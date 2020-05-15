@@ -1,4 +1,10 @@
-import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useContext,
+  useState,
+} from 'react';
 import { useMutation } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button, Link, TextField, makeStyles, Theme } from '@material-ui/core';
@@ -22,7 +28,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  handleClose: ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void) | undefined;
+  handleClose:
+    | ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void)
+    | undefined;
   setAlert: Dispatch<SetStateAction<AlertState>>;
 }
 
@@ -41,8 +49,13 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
   const { setUser } = useContext(UserContext);
   const classes = useStyles();
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    setForm((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setForm((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

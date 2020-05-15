@@ -1,4 +1,10 @@
-import React, { FC, createContext, useState, Dispatch, SetStateAction } from 'react';
+import React, {
+  FC,
+  createContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 
 interface User {
   loggedIn: boolean;
@@ -18,5 +24,9 @@ export const UserContext = createContext<UserContext>({
 export const UserContextProvider: FC = ({ children }) => {
   const [user, setUser] = useState({ loggedIn: false, email: '' });
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
 };

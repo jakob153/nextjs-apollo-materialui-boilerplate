@@ -31,7 +31,9 @@ const SignUp: FC<Props> = ({ setAlert }) => {
   const classes = useStyles();
   const [signUpMutation] = useMutation(SIGNUP_MUTATION);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const { name, value } = event.target;
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -106,7 +108,11 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         fullWidth
         required
       />
-      <Button type="submit" disabled={!(form.email && form.password && form.password2)} fullWidth>
+      <Button
+        type="submit"
+        disabled={!(form.email && form.password && form.password2)}
+        fullWidth
+      >
         Sign Up
       </Button>
     </form>

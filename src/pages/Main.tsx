@@ -15,7 +15,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Main: FC<RouteChildrenProps> = ({ history }) => {
-  const [alert, setAlert] = useState<AlertState>({ variant: 'info', messages: [], show: false });
+  const [alert, setAlert] = useState<AlertState>({
+    variant: 'info',
+    messages: [],
+    show: false,
+  });
   const classes = useStyles();
 
   useEffect(() => {
