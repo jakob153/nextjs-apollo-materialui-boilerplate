@@ -38,13 +38,14 @@ interface LoginResponse {
   login: {
     user: {
       email: string;
+      authToken: string;
     };
     errors: Array<{ path: string; message: string }>;
   };
 }
 
 const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ usernameOrEmail: '', password: '' });
   const [logInMutation] = useMutation<LoginResponse>(LOGIN_MUTATION);
   const { setUser } = useContext(UserContext);
   const classes = useStyles();
@@ -52,9 +53,11 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
+    const name = event.target.name;
+    const value = event.target.value;
     setForm((prevState) => ({
       ...prevState,
-      [event.target.name]: event.target.value,
+      [name]: value,
     }));
   };
 
@@ -63,11 +66,21 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
 
     try {
       const response = await logInMutation({
-        variables: { input: { email: form.email, password: form.password } },
+        variables: {
+          input: {
+            usernameOrEmail: form.usernameOrEmail,
+            password: form.password,
+          },
+        },
       });
       if (handleClose && response.data) {
         handleClose({}, 'backdropClick');
-        setUser({ email: response.data.login.user.email, loggedIn: true });
+        console.log(response.data);
+        setUser({
+          email: response.data.login.user.email,
+          loggedIn: true,
+          authToken: response.data.login.user.authToken,
+        });
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -80,11 +93,11 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
       <TextField
         autoComplete="email"
         className={classes.marginBottom2}
-        label="Email"
-        type="email"
-        name="email"
+        label="Username Or Email"
+        type="text"
+        name="usernameOrEmail"
         onChange={handleChange}
-        value={form.email}
+        value={form.usernameOrEmail}
         fullWidth
       />
       <TextField
@@ -100,7 +113,11 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
       <Link component={RouterLink} to="/resetPassword">
         Forgot Password?
       </Link>
-      <Button type="submit" disabled={!(form.email && form.password)} fullWidth>
+      <Button
+        type="submit"
+        disabled={!(form.usernameOrEmail && form.password)}
+        fullWidth
+      >
         Log In
       </Button>
     </form>

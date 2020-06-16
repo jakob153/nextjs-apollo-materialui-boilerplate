@@ -24,6 +24,7 @@ interface Props {
 
 const SignUp: FC<Props> = ({ setAlert }) => {
   const [form, setForm] = useState({
+    username: '',
     email: '',
     password: '',
     password2: '',
@@ -34,37 +35,46 @@ const SignUp: FC<Props> = ({ setAlert }) => {
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    const { name, value } = event.target;
+    const name = event.target.name;
+    const value = event.target.value;
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const validateForm = (password: string, password2: string) => {
-    let formValid = true;
     const messages = [];
 
     if (password.length < 5) {
-      formValid = false;
       messages.push('Password must have at least 6 characters');
     } else if (password !== password2) {
-      formValid = false;
       messages.push('Passwords do not match');
     }
 
-    return { formValid, messages };
+    return { formValid: !messages.length, messages };
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { email, password, password2 } = form;
 
-    const { formValid, messages } = validateForm(password, password2);
+    const validateFormResult = validateForm(form.password, form.password2);
 
-    if (!formValid) {
-      setAlert({ variant: 'error', messages, show: true });
+    if (!validateFormResult.formValid) {
+      setAlert({
+        variant: 'error',
+        messages: validateFormResult.messages,
+        show: true,
+      });
       return;
     }
     try {
-      await signUpMutation({ variables: { input: { email, password } } });
+      await signUpMutation({
+        variables: {
+          input: {
+            username: form.username,
+            email: form.email,
+            password: form.password,
+          },
+        },
+      });
       setAlert({
         variant: 'success',
         messages: ['A Confirmation Link was sent to your Mail.'],
@@ -78,6 +88,16 @@ const SignUp: FC<Props> = ({ setAlert }) => {
 
   return (
     <form className={classes.marginTop2} onSubmit={handleSubmit}>
+      <TextField
+        name="username"
+        label="Username"
+        type="text"
+        className={classes.marginBottom2}
+        onChange={handleChange}
+        value={form.username}
+        fullWidth
+        required
+      />
       <TextField
         name="email"
         label="Email"
@@ -110,7 +130,9 @@ const SignUp: FC<Props> = ({ setAlert }) => {
       />
       <Button
         type="submit"
-        disabled={!(form.email && form.password && form.password2)}
+        disabled={
+          !(form.username && form.email && form.password && form.password2)
+        }
         fullWidth
       >
         Sign Up

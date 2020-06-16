@@ -48,7 +48,7 @@ const NavBar: FC = () => {
   };
 
   const handleLogout = () => {
-    setUser({ email: '', loggedIn: false });
+    setUser({ email: '', loggedIn: false, authToken: '' });
     logOutMutation();
   };
 

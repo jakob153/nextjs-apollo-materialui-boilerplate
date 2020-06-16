@@ -12,8 +12,9 @@ import {
   ApolloClient,
   ApolloProvider,
   InMemoryCache,
-  HttpLink,
+  createHttpLink,
 } from '@apollo/client';
+import { setContext } from '@apollo/link-context';
 import {
   CssBaseline,
   MuiThemeProvider,
@@ -39,14 +40,6 @@ const theme = createMuiTheme({
   },
 });
 
-export const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: new HttpLink({
-    uri: process.env.REACT_APP_GRAPHQL_API,
-    credentials: 'include',
-  }),
-});
-
 interface PrivateRouteProps extends RouteProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: ComponentType<RouteComponentProps<any>> | ComponentType<any>;
@@ -56,6 +49,22 @@ interface PrivateRouteProps extends RouteProps {
 const App: FC = () => {
   const { user } = useContext(UserContext);
   const params = qs.parse(window.location.search, { ignoreQueryPrefix: true });
+
+  const http = createHttpLink({
+    uri: process.env.REACT_APP_GRAPHQL_API,
+  });
+
+  const authLink = setContext((_, { headers }) => ({
+    headers: {
+      ...headers,
+      authorization: `Bearer ${user.authToken}`,
+    },
+  }));
+
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: authLink.concat(http),
+  });
 
   const PrivateRoute: FC<PrivateRouteProps> = ({
     component: Component,
