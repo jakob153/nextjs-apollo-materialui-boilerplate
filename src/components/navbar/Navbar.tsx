@@ -39,7 +39,6 @@ const NavBar: FC = () => {
   const [logOutMutation] = useMutation(LOGOUT_MUTATION);
   const classes = useStyles();
 
-  console.log(user);
   const handleClick = (selectedTab: number) => () => {
     setShowModal((prevState) => ({ open: !prevState.open, selectedTab }));
   };

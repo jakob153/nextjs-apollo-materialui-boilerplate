@@ -42,9 +42,14 @@ export const UserContextProvider: FC = ({ children }) => {
         if (!response.ok) {
           return;
         }
-        console.log(response);
-        const userData = await response.json();
-        setUser(userData);
+
+        const userData = (await response.json()) as User;
+        setUser({
+          username: userData.username,
+          email: userData.email,
+          authToken: userData.authToken,
+          loggedIn: true,
+        });
       } catch (error) {}
     };
 

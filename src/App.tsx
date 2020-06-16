@@ -52,12 +52,13 @@ const App: FC = () => {
 
   const http = createHttpLink({
     uri: process.env.REACT_APP_GRAPHQL_API,
+    credentials: 'include',
   });
 
   const authLink = setContext((_, { headers }) => ({
     headers: {
       ...headers,
-      authorization: `Bearer ${user.authToken}`,
+      ...(user.authToken && { authorization: `Bearer ${user.authToken}` }),
     },
   }));
 
