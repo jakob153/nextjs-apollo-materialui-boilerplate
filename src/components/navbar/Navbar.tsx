@@ -39,6 +39,7 @@ const NavBar: FC = () => {
   const [logOutMutation] = useMutation(LOGOUT_MUTATION);
   const classes = useStyles();
 
+  console.log(user);
   const handleClick = (selectedTab: number) => () => {
     setShowModal((prevState) => ({ open: !prevState.open, selectedTab }));
   };
@@ -48,7 +49,7 @@ const NavBar: FC = () => {
   };
 
   const handleLogout = () => {
-    setUser({ email: '', loggedIn: false, authToken: '' });
+    setUser({ username: '', email: '', loggedIn: false, authToken: '' });
     logOutMutation();
   };
 

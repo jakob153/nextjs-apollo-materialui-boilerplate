@@ -35,8 +35,9 @@ interface Props {
 }
 
 interface LoginResponse {
-  login: {
+  logIn: {
     user: {
+      username: string;
       email: string;
       authToken: string;
     };
@@ -73,15 +74,16 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
           },
         },
       });
-      if (handleClose && response.data) {
-        handleClose({}, 'backdropClick');
-        console.log(response.data);
-        setUser({
-          email: response.data.login.user.email,
-          loggedIn: true,
-          authToken: response.data.login.user.authToken,
-        });
+      if (!(handleClose && response.data)) {
+        return;
       }
+      setUser({
+        username: response.data.logIn.user.username,
+        email: response.data.logIn.user.email,
+        loggedIn: true,
+        authToken: response.data.logIn.user.authToken,
+      });
+      handleClose({}, 'backdropClick');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

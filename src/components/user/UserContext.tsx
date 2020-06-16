@@ -9,6 +9,7 @@ import React, {
 
 interface User {
   loggedIn: boolean;
+  username: string;
   email: string;
   authToken: string;
 }
@@ -19,13 +20,14 @@ interface UserContext {
 }
 
 export const UserContext = createContext<UserContext>({
-  user: { loggedIn: false, email: '', authToken: '' },
+  user: { loggedIn: false, username: '', email: '', authToken: '' },
   setUser: () => undefined,
 });
 
 export const UserContextProvider: FC = ({ children }) => {
   const [user, setUser] = useState({
     loggedIn: false,
+    username: '',
     email: '',
     authToken: '',
   });
@@ -34,12 +36,13 @@ export const UserContextProvider: FC = ({ children }) => {
     const getUser = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_REST_API}/refreshToken`
+          `${process.env.REACT_APP_REST_API}/refreshToken`,
+          { credentials: 'include' }
         );
         if (!response.ok) {
           return;
         }
-
+        console.log(response);
         const userData = await response.json();
         setUser(userData);
       } catch (error) {}
