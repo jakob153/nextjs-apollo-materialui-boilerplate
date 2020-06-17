@@ -20,7 +20,12 @@ interface UserContext {
 }
 
 export const UserContext = createContext<UserContext>({
-  user: { loggedIn: false, username: '', email: '', authToken: '' },
+  user: {
+    loggedIn: false,
+    username: '',
+    email: '',
+    authToken: '',
+  },
   setUser: () => undefined,
 });
 
@@ -31,10 +36,13 @@ export const UserContextProvider: FC = ({ children }) => {
     email: '',
     authToken: '',
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
       try {
+        setLoading(true);
+
         const response = await fetch(
           `${process.env.REACT_APP_REST_API}/refreshToken`,
           { credentials: 'include' }
@@ -51,6 +59,8 @@ export const UserContextProvider: FC = ({ children }) => {
           loggedIn: true,
         });
       } catch (error) {}
+
+      setLoading(false);
     };
 
     getUser();
@@ -58,7 +68,7 @@ export const UserContextProvider: FC = ({ children }) => {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {children}
+      {!loading && children}
     </UserContext.Provider>
   );
 };

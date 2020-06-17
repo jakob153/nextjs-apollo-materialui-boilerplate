@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   marginBottom2: {
     marginBottom: theme.spacing(2),
   },
-  marginBottom4: {
-    marginBottom: theme.spacing(4),
+  marginBottom3: {
+    marginBottom: theme.spacing(3),
   },
 }));
 
@@ -92,41 +92,41 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         name="username"
         label="Username"
         type="text"
-        className={classes.marginBottom2}
+        className={classes.marginBottom3}
         onChange={handleChange}
         value={form.username}
+        variant="outlined"
         fullWidth
-        required
       />
       <TextField
         name="email"
         label="Email"
         type="email"
-        className={classes.marginBottom2}
+        className={classes.marginBottom3}
         onChange={handleChange}
         value={form.email}
+        variant="outlined"
         fullWidth
-        required
       />
       <TextField
         name="password"
         label="Password"
         type="password"
-        className={classes.marginBottom2}
+        className={classes.marginBottom3}
         onChange={handleChange}
         value={form.password}
+        variant="outlined"
         fullWidth
-        required
       />
       <TextField
         name="password2"
         label="Confirm Password"
         type="password"
-        className={classes.marginBottom4}
+        className={classes.marginBottom3}
         onChange={handleChange}
         value={form.password2}
+        variant="outlined"
         fullWidth
-        required
       />
       <Button
         type="submit"

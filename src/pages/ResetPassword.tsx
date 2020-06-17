@@ -4,6 +4,7 @@ import {
   Container,
   Paper,
   TextField,
+  Typography,
   makeStyles,
   Theme,
 } from '@material-ui/core';
@@ -15,14 +16,14 @@ import { AlertState } from '../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
-    maxWidth: '450px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: theme.spacing(8),
     padding: theme.spacing(3),
   },
-  marginBottom2: {
-    marginBottom: theme.spacing(2),
+  title: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(4),
+  },
+  marginBottom5: {
+    marginBottom: theme.spacing(5),
   },
 }));
 
@@ -38,7 +39,7 @@ interface Props {
 }
 
 const ResetPassword: FC<Props> = ({ setAlert }) => {
-  const [email, setEmail] = useState('');
+  const [form, setForm] = useState({ username: '', email: '' });
   const classes = useStyles();
   const [resetPassword] = useMutation<ResetPasswordResponse>(
     RESET_PASSWORD_MUTATION
@@ -47,7 +48,9 @@ const ResetPassword: FC<Props> = ({ setAlert }) => {
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setEmail(event.target.value);
+    const name = event.target.name;
+    const value = event.target.value;
+    setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,7 +58,7 @@ const ResetPassword: FC<Props> = ({ setAlert }) => {
 
     try {
       await resetPassword({
-        variables: { email },
+        variables: { username: form.username, email: form.email },
       });
       setAlert({
         variant: 'success',
@@ -69,19 +72,37 @@ const ResetPassword: FC<Props> = ({ setAlert }) => {
   };
 
   return (
-    <Container>
+    <Container maxWidth="xs">
+      <Typography className={classes.title} variant="h5" align="center">
+        Reset Your Password
+      </Typography>
       <Paper className={classes.paper}>
         <form onSubmit={handleSubmit}>
           <TextField
+            name="username"
+            className={classes.marginBottom5}
+            label="Username"
+            type="text"
+            onChange={handleChange}
+            value={form.username}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
             name="email"
-            className={classes.marginBottom2}
+            className={classes.marginBottom5}
             label="Email"
             type="email"
             onChange={handleChange}
-            value={email}
+            value={form.email}
+            variant="outlined"
             fullWidth
           />
-          <Button type="submit" fullWidth>
+          <Button
+            type="submit"
+            disabled={!(form.username && form.email)}
+            fullWidth
+          >
             Reset Password
           </Button>
         </form>

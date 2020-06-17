@@ -1,10 +1,11 @@
 import React, { useEffect, useState, FC } from 'react';
-import { Container, makeStyles, Theme } from '@material-ui/core';
-import Navbar from '../components/navbar/Navbar';
 import qs from 'qs';
-import { RouteChildrenProps } from 'react-router-dom';
+import { Button, Container, makeStyles, Theme } from '@material-ui/core';
+import { gql, useLazyQuery } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import Alert from '../components/alert/Alert';
+import Navbar from '../components/navbar/Navbar';
 
 import { AlertState } from '../types';
 
@@ -14,16 +15,26 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Main: FC<RouteChildrenProps> = ({ history }) => {
+const Main: FC = () => {
   const [alert, setAlert] = useState<AlertState>({
     variant: 'info',
     messages: [],
     show: false,
   });
+  const history = useHistory();
+  const [getBooks] = useLazyQuery(
+    gql`
+      {
+        book
+      }
+    `
+  );
   const classes = useStyles();
 
   useEffect(() => {
-    const params = qs.parse(window.location.search.replace('?', ''));
+    const params = qs.parse(history.location.search, {
+      ignoreQueryPrefix: true,
+    });
 
     if (params?.confirmAccount) {
       setAlert({
@@ -36,11 +47,15 @@ const Main: FC<RouteChildrenProps> = ({ history }) => {
         show: true,
       });
     }
-  }, []);
+  }, [history.location.search]);
 
   const handleAlertClose = () => {
     history.push(history.location.pathname);
     setAlert((prevState) => ({ ...prevState, show: false }));
+  };
+
+  const handleBooks = () => {
+    getBooks();
   };
 
   return (
@@ -48,6 +63,9 @@ const Main: FC<RouteChildrenProps> = ({ history }) => {
       <Navbar />
       <Container>
         <h5>MAIN PAGE</h5>
+        <Button variant="contained" onClick={handleBooks}>
+          Get Books
+        </Button>
       </Container>
       {alert.show && (
         <Alert

@@ -7,7 +7,14 @@ import React, {
 } from 'react';
 import { useMutation } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button, Link, TextField, makeStyles, Theme } from '@material-ui/core';
+import {
+  Button,
+  Link,
+  TextField,
+  Typography,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
 
 import { UserContext } from '../user/UserContext';
 
@@ -22,8 +29,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   marginBottom1: {
     marginBottom: theme.spacing(1),
   },
-  marginBottom2: {
-    marginBottom: theme.spacing(2),
+  marginBottom3: {
+    marginBottom: theme.spacing(3),
   },
 }));
 
@@ -94,12 +101,13 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
     <form className={classes.marginTop2} action="POST" onSubmit={handleSubmit}>
       <TextField
         autoComplete="email"
-        className={classes.marginBottom2}
+        className={classes.marginBottom3}
         label="Username Or Email"
         type="text"
         name="usernameOrEmail"
         onChange={handleChange}
         value={form.usernameOrEmail}
+        variant="outlined"
         fullWidth
       />
       <TextField
@@ -110,11 +118,14 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         name="password"
         onChange={handleChange}
         value={form.password}
+        variant="outlined"
         fullWidth
       />
-      <Link component={RouterLink} to="/resetPassword">
-        Forgot Password?
-      </Link>
+      <Typography className={classes.marginBottom3}>
+        <Link component={RouterLink} to="/resetPassword">
+          Forgot Password?
+        </Link>
+      </Typography>
       <Button
         type="submit"
         disabled={!(form.usernameOrEmail && form.password)}

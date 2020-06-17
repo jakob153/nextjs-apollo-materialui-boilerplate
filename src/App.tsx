@@ -8,18 +8,13 @@ import {
   RouteProps,
 } from 'react-router-dom';
 import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/link-context';
-import {
   CssBaseline,
   MuiThemeProvider,
   createMuiTheme,
 } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
+
+import ApolloProviderWithToken from './ApolloProviderWithToken';
 
 import Dashboard from './pages/Dashboard';
 import Main from './pages/Main';
@@ -47,23 +42,6 @@ interface PrivateRouteProps extends RouteProps {
 const App: FC = () => {
   const { user } = useContext(UserContext);
 
-  const http = createHttpLink({
-    uri: process.env.REACT_APP_GRAPHQL_API,
-    credentials: 'include',
-  });
-
-  const authLink = setContext((_, { headers }) => ({
-    headers: {
-      ...headers,
-      ...(user.authToken && { authorization: `Bearer ${user.authToken}` }),
-    },
-  }));
-
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link: authLink.concat(http),
-  });
-
   const PrivateRoute: FC<PrivateRouteProps> = ({
     component: Component,
     condition,
@@ -78,10 +56,10 @@ const App: FC = () => {
   );
 
   return (
-    <ApolloProvider client={client}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <UserContextProvider>
+    <UserContextProvider>
+      <ApolloProviderWithToken>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
           <Router>
             <Switch>
               <Route exact path="/" component={Main} />
@@ -95,9 +73,9 @@ const App: FC = () => {
               <Redirect to="/" />
             </Switch>
           </Router>
-        </UserContextProvider>
-      </MuiThemeProvider>
-    </ApolloProvider>
+        </MuiThemeProvider>
+      </ApolloProviderWithToken>
+    </UserContextProvider>
   );
 };
 
