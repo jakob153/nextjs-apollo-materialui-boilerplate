@@ -47,6 +47,9 @@ export const UserContextProvider: FC = ({ children }) => {
           `${process.env.REACT_APP_REST_API}/refreshToken`,
           { credentials: 'include' }
         );
+
+        setLoading(false);
+
         if (!response.ok) {
           return;
         }
@@ -59,8 +62,6 @@ export const UserContextProvider: FC = ({ children }) => {
           loggedIn: true,
         });
       } catch (error) {}
-
-      setLoading(false);
     };
 
     getUser();
