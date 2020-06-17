@@ -36,25 +36,23 @@ export const UserContextProvider: FC = ({ children }) => {
     email: '',
     authToken: '',
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        setLoading(true);
-
         const response = await fetch(
           `${process.env.REACT_APP_REST_API}/refreshToken`,
           { credentials: 'include' }
         );
 
-        setLoading(false);
-
         if (!response.ok) {
+          setLoading(false);
           return;
         }
 
         const userData = (await response.json()) as User;
+
         setUser({
           username: userData.username,
           email: userData.email,
@@ -62,14 +60,20 @@ export const UserContextProvider: FC = ({ children }) => {
           loggedIn: true,
         });
       } catch (error) {}
+
+      setLoading(false);
     };
 
     getUser();
   }, []);
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {!loading && children}
+      {children}
     </UserContext.Provider>
   );
 };

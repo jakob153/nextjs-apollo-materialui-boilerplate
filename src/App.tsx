@@ -20,10 +20,7 @@ import Dashboard from './pages/Dashboard';
 import Main from './pages/Main';
 import ResetPassword from './pages/ResetPassword';
 
-import {
-  UserContext,
-  UserContextProvider,
-} from './components/user/UserContext';
+import { UserContext } from './components/user/UserContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -56,26 +53,24 @@ const App: FC = () => {
   );
 
   return (
-    <UserContextProvider>
-      <ApolloProviderWithToken>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router>
-            <Switch>
-              <Route exact path="/" component={Main} />
-              <Route exact path="/resetPassword" component={ResetPassword} />
-              <PrivateRoute
-                exact
-                path="/dashboard"
-                condition={user.loggedIn}
-                component={Dashboard}
-              />
-              <Redirect to="/" />
-            </Switch>
-          </Router>
-        </MuiThemeProvider>
-      </ApolloProviderWithToken>
-    </UserContextProvider>
+    <ApolloProviderWithToken>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Main} />
+            <Route exact path="/resetPassword" component={ResetPassword} />
+            <PrivateRoute
+              exact
+              path="/dashboard"
+              condition={user.loggedIn}
+              component={Dashboard}
+            />
+            <Redirect to="/" />
+          </Switch>
+        </Router>
+      </MuiThemeProvider>
+    </ApolloProviderWithToken>
   );
 };
 

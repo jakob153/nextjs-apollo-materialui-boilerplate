@@ -1,7 +1,6 @@
 import React, { useEffect, useState, FC } from 'react';
 import qs from 'qs';
-import { Button, Container, makeStyles, Theme } from '@material-ui/core';
-import { gql, useLazyQuery } from '@apollo/client';
+import { Container, makeStyles, Theme } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import Alert from '../components/alert/Alert';
@@ -22,13 +21,6 @@ const Main: FC = () => {
     show: false,
   });
   const history = useHistory();
-  const [getBooks] = useLazyQuery(
-    gql`
-      {
-        book
-      }
-    `
-  );
   const classes = useStyles();
 
   useEffect(() => {
@@ -54,18 +46,11 @@ const Main: FC = () => {
     setAlert((prevState) => ({ ...prevState, show: false }));
   };
 
-  const handleBooks = () => {
-    getBooks();
-  };
-
   return (
     <>
       <Navbar />
       <Container>
         <h5>MAIN PAGE</h5>
-        <Button variant="contained" onClick={handleBooks}>
-          Get Books
-        </Button>
       </Container>
       {alert.show && (
         <Alert

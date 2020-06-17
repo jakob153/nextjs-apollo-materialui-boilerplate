@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import App from './App';
+import { UserContextProvider } from './components/user/UserContext';
+
+ReactDOM.render(
+  <UserContextProvider>
+    <App />
+  </UserContextProvider>,
+  document.getElementById('root')
+);
 
 serviceWorker.unregister();
