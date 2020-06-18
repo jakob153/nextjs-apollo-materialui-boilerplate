@@ -9,6 +9,7 @@ import {
   Theme,
 } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
+import { Alert } from '@material-ui/lab';
 
 import { RESET_PASSWORD_MUTATION } from './ResetPassword.mutation';
 
@@ -21,6 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   title: {
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(4),
+  },
+  alert: {
+    marginBottom: theme.spacing(2),
   },
   marginBottom5: {
     marginBottom: theme.spacing(5),
@@ -38,8 +42,13 @@ interface Props {
   setAlert: Dispatch<SetStateAction<AlertState>>;
 }
 
-const ResetPassword: FC<Props> = ({ setAlert }) => {
+const ResetPassword: FC<Props> = () => {
   const [form, setForm] = useState({ username: '', email: '' });
+  const [alert, setAlert] = useState<AlertState>({
+    severity: 'info',
+    message: '',
+    show: false,
+  });
   const classes = useStyles();
   const [resetPassword] = useMutation<ResetPasswordResponse>(
     RESET_PASSWORD_MUTATION
@@ -57,18 +66,29 @@ const ResetPassword: FC<Props> = ({ setAlert }) => {
     event.preventDefault();
 
     try {
-      await resetPassword({
+      const response = await resetPassword({
         variables: { username: form.username, email: form.email },
       });
+
+      if (!response.errors?.length) {
+        setAlert({
+          severity: 'success',
+          message:
+            'A Password Reset Link was sent was sent to your mail address.',
+          show: true,
+        });
+      }
+    } catch (error) {
       setAlert({
-        variant: 'success',
-        messages: ['Mail was sent successfully'],
+        severity: 'error',
+        message: 'Something went wrong!',
         show: true,
       });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
     }
+  };
+
+  const handleAlertClose = () => {
+    setAlert((prevState) => ({ ...prevState, show: false }));
   };
 
   return (
@@ -76,6 +96,15 @@ const ResetPassword: FC<Props> = ({ setAlert }) => {
       <Typography className={classes.title} variant="h5" align="center">
         Reset Your Password
       </Typography>
+      {alert.show && (
+        <Alert
+          className={classes.alert}
+          severity={alert.severity}
+          onClose={handleAlertClose}
+        >
+          {alert.message}
+        </Alert>
+      )}
       <Paper className={classes.paper}>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -101,6 +130,7 @@ const ResetPassword: FC<Props> = ({ setAlert }) => {
           <Button
             type="submit"
             disabled={!(form.username && form.email)}
+            variant="contained"
             fullWidth
           >
             Reset Password

@@ -1,5 +1,5 @@
 export interface AlertState {
-  variant: 'info' | 'success' | 'error' | 'warning';
-  messages: Array<string>;
+  severity: 'info' | 'success' | 'error' | 'warning';
+  message: string;
   show: boolean;
 }

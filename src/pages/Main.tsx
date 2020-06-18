@@ -1,9 +1,9 @@
 import React, { useEffect, useState, FC } from 'react';
 import qs from 'qs';
 import { Container, makeStyles, Theme } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { useHistory } from 'react-router-dom';
 
-import Alert from '../components/alert/Alert';
 import Navbar from '../components/navbar/Navbar';
 
 import { AlertState } from '../types';
@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Main: FC = () => {
   const [alert, setAlert] = useState<AlertState>({
-    variant: 'info',
-    messages: [],
+    severity: 'info',
+    message: '',
     show: false,
   });
   const history = useHistory();
@@ -30,12 +30,19 @@ const Main: FC = () => {
 
     if (params?.confirmAccount) {
       setAlert({
-        variant: params.confirmAccount === 'true' ? 'success' : 'error',
-        messages: [
+        severity: params.confirmAccount === 'true' ? 'success' : 'error',
+        message:
           params.confirmAccount === 'true'
             ? 'Account Confirmed! You can now log in.'
             : 'Something went wrong.',
-        ],
+        show: true,
+      });
+    }
+
+    if (params?.confirmPasswordChange) {
+      setAlert({
+        severity: 'success',
+        message: 'Password Changed! You can now log in with your new Password.',
         show: true,
       });
     }
@@ -50,16 +57,17 @@ const Main: FC = () => {
     <>
       <Navbar />
       <Container>
+        {alert.show && (
+          <Alert
+            className={classes.marginTop4}
+            severity={alert.severity}
+            onClose={handleAlertClose}
+          >
+            {alert.message}
+          </Alert>
+        )}
         <h5>MAIN PAGE</h5>
       </Container>
-      {alert.show && (
-        <Alert
-          className={classes.marginTop4}
-          variant={alert.variant}
-          messages={alert.messages}
-          onClose={handleAlertClose}
-        />
-      )}
     </>
   );
 };

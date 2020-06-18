@@ -35,9 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  handleClose:
-    | ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void)
-    | undefined;
+  handleClose: () => void;
   setAlert: Dispatch<SetStateAction<AlertState>>;
 }
 
@@ -81,16 +79,19 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
           },
         },
       });
+
       if (!(handleClose && response.data)) {
         return;
       }
+
       setUser({
         username: response.data.logIn.user.username,
         email: response.data.logIn.user.email,
         loggedIn: true,
         authToken: response.data.logIn.user.authToken,
       });
-      handleClose({}, 'backdropClick');
+
+      handleClose();
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -129,6 +130,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
       <Button
         type="submit"
         disabled={!(form.usernameOrEmail && form.password)}
+        variant="contained"
         fullWidth
       >
         Log In

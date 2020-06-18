@@ -10,9 +10,10 @@ import {
   Theme,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
+
 import LogIn from './LogIn';
 import SignUp from './SignUp';
-import Alert from '../alert/Alert';
 
 import { AlertState } from '../../types';
 
@@ -34,17 +35,15 @@ enum Tab {
 
 interface Props {
   open: boolean;
-  handleClose:
-    | ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void)
-    | undefined;
+  handleClose: () => void;
   selectedTab: number;
 }
 
 const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
   const [tab, setTab] = useState(selectedTab);
   const [alert, setAlert] = useState<AlertState>({
-    variant: 'info',
-    messages: [],
+    severity: 'info',
+    message: '',
     show: false,
   });
   const classes = useStyles();
@@ -68,10 +67,11 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
       {alert.show && (
         <Alert
           className={classes.marginTop2}
-          variant={alert.variant}
-          messages={alert.messages}
+          severity={alert.severity}
           onClose={handleCloseAlert}
-        />
+        >
+          {alert.message}
+        </Alert>
       )}
       <DialogContent>
         {tab === Tab.LogIn && (
@@ -79,10 +79,7 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
         )}
         {tab === Tab.SignUp && <SignUp setAlert={setAlert} />}
       </DialogContent>
-      <IconButton
-        className={classes.closeButton}
-        onClick={() => handleClose && handleClose({}, 'backdropClick')}
-      >
+      <IconButton className={classes.closeButton} onClick={handleClose}>
         <Close />
       </IconButton>
     </Dialog>

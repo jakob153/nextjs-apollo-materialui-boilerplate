@@ -59,8 +59,8 @@ const SignUp: FC<Props> = ({ setAlert }) => {
 
     if (!validateFormResult.formValid) {
       setAlert({
-        variant: 'error',
-        messages: validateFormResult.messages,
+        severity: 'error',
+        message: validateFormResult.messages.join('\n'),
         show: true,
       });
       return;
@@ -76,8 +76,8 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         },
       });
       setAlert({
-        variant: 'success',
-        messages: ['A Confirmation Link was sent to your Mail.'],
+        severity: 'success',
+        message: 'A Confirmation Link was sent to your Mail.',
         show: true,
       });
     } catch (error) {
@@ -133,6 +133,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         disabled={
           !(form.username && form.email && form.password && form.password2)
         }
+        variant="contained"
         fullWidth
       >
         Sign Up
