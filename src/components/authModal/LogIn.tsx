@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   marginBottom3: {
     marginBottom: theme.spacing(3),
   },
+  marginBottom7: {
+    marginBottom: theme.spacing(7),
+  },
 }));
 
 interface Props {
@@ -122,7 +125,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         variant="outlined"
         fullWidth
       />
-      <Typography className={classes.marginBottom3}>
+      <Typography className={classes.marginBottom7}>
         <Link component={RouterLink} to="/resetPassword">
           Forgot Password?
         </Link>
