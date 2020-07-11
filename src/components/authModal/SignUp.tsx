@@ -6,7 +6,7 @@ import React, {
   SetStateAction,
   useState,
 } from 'react';
-import { Button, TextField, makeStyles, Theme } from '@material-ui/core';
+import { Box, Button, TextField, makeStyles, Theme } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 
 import { AlertState } from '../../types';
@@ -62,7 +62,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
     return { formValid: !messages.length, messages };
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const validateFormResult = validateForm(form.password, form.password2);
@@ -76,13 +76,11 @@ const SignUp: FC<Props> = ({ setAlert }) => {
       return;
     }
     try {
-      signUpMutation({
+      await signUpMutation({
         variables: {
-          input: {
-            username: form.username,
-            email: form.email,
-            password: form.password,
-          },
+          username: form.username,
+          email: form.email,
+          password: form.password,
         },
       });
 
@@ -139,16 +137,18 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         variant="outlined"
         fullWidth
       />
-      <Button
-        type="submit"
-        disabled={
-          !(form.username && form.email && form.password && form.password2)
-        }
-        variant="contained"
-        fullWidth
-      >
-        Sign Up
-      </Button>
+      <Box marginBottom={4}>
+        <Button
+          type="submit"
+          disabled={
+            !(form.username && form.email && form.password && form.password2)
+          }
+          variant="contained"
+          fullWidth
+        >
+          Sign Up
+        </Button>
+      </Box>
     </form>
   );
 };

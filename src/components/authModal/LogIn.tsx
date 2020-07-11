@@ -10,6 +10,7 @@ import React, {
 import { useMutation } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
 import {
+  Box,
   Button,
   Link,
   TextField,
@@ -78,10 +79,8 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
     try {
       const response = await logInMutation({
         variables: {
-          input: {
-            usernameOrEmail: form.usernameOrEmail,
-            password: form.password,
-          },
+          usernameOrEmail: form.usernameOrEmail,
+          password: form.password,
         },
       });
 
@@ -132,14 +131,16 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
           Forgot Password?
         </Link>
       </Typography>
-      <Button
-        type="submit"
-        disabled={!(form.usernameOrEmail && form.password)}
-        variant="contained"
-        fullWidth
-      >
-        Log In
-      </Button>
+      <Box marginBottom={4}>
+        <Button
+          type="submit"
+          disabled={!(form.usernameOrEmail && form.password)}
+          variant="contained"
+          fullWidth
+        >
+          Log In
+        </Button>
+      </Box>
     </form>
   );
 };
