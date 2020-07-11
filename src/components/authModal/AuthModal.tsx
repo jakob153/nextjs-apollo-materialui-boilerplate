@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -48,7 +48,7 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
   });
   const classes = useStyles();
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
 

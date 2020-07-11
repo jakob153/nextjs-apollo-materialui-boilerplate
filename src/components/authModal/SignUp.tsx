@@ -1,4 +1,11 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from 'react';
 import { Button, TextField, makeStyles, Theme } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 
@@ -36,7 +43,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
   const [signUpMutation] = useMutation(SIGNUP_MUTATION);
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -55,7 +62,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
     return { formValid: !messages.length, messages };
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const validateFormResult = validateForm(form.password, form.password2);
@@ -69,7 +76,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
       return;
     }
     try {
-      await signUpMutation({
+      signUpMutation({
         variables: {
           input: {
             username: form.username,
@@ -78,6 +85,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
           },
         },
       });
+
       setAlert({
         severity: 'success',
         message: 'A Confirmation Link was sent to your Mail.',

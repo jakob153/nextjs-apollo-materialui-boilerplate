@@ -1,6 +1,8 @@
 import React, {
+  ChangeEvent,
   Dispatch,
   FC,
+  FormEvent,
   SetStateAction,
   useContext,
   useState,
@@ -60,7 +62,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
   const classes = useStyles();
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -70,7 +72,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {

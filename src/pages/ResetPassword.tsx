@@ -1,4 +1,11 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from 'react';
 import {
   Button,
   Container,
@@ -55,14 +62,14 @@ const ResetPassword: FC<Props> = () => {
   );
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const name = event.target.name;
     const value = event.target.value;
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
