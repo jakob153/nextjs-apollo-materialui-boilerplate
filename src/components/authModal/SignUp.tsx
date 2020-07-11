@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   marginBottom3: {
     marginBottom: theme.spacing(3),
   },
-  marginBottom7: {
+  marginBottom4: {
     marginBottom: theme.spacing(7),
   },
 }));
@@ -131,7 +131,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         name="password2"
         label="Confirm Password"
         type="password"
-        className={classes.marginBottom7}
+        className={classes.marginBottom4}
         onChange={handleChange}
         value={form.password2}
         variant="outlined"
