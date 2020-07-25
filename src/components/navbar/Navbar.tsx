@@ -8,10 +8,14 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AuthModal from '../authModal/AuthModal';
+
 import { UserContext } from '../user/UserContext';
+
+import { LOGOUT_MUTATION } from './LogOut.mutation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -35,6 +39,8 @@ const NavBar: FC = () => {
   });
   const classes = useStyles();
 
+  const [logOutMutation] = useMutation(LOGOUT_MUTATION);
+
   const handleClick = (selectedTab: number) => () => {
     setShowModal((prevState) => ({ open: !prevState.open, selectedTab }));
   };
@@ -43,13 +49,10 @@ const NavBar: FC = () => {
     setShowModal((prevState) => ({ open: !prevState.open, selectedTab: null }));
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     setUser({ username: '', email: '', loggedIn: false, authToken: '' });
 
-    await fetch(`${process.env.REACT_APP_API}/refreshToken`, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
+    logOutMutation();
   };
 
   const { open, selectedTab } = showModal;
