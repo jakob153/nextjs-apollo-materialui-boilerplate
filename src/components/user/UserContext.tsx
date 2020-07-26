@@ -42,8 +42,10 @@ export const UserContextProvider: FC = ({ children }) => {
     const getUser = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}/refreshToken`,
-          { credentials: 'include' }
+          `http://${window.location.host}/refreshToken`,
+          {
+            credentials: 'include',
+          }
         );
 
         if (!response.ok) {

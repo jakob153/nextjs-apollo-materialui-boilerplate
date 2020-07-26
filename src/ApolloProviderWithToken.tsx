@@ -13,7 +13,7 @@ const ApolloProviderWithToken: FC = ({ children }) => {
   const { user } = useContext(UserContext);
 
   const http = createHttpLink({
-    uri: process.env.REACT_APP_GRAPHQL_API,
+    uri: '/graphql',
     credentials: 'include',
   });
 
