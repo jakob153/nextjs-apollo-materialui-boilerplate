@@ -48,6 +48,7 @@ export const UserContextProvider: FC = ({ children }) => {
           }
         );
 
+        console.log(response.ok);
         if (!response.ok) {
           setLoading(false);
           return;
@@ -68,6 +69,42 @@ export const UserContextProvider: FC = ({ children }) => {
 
     getUser();
   }, []);
+
+  useEffect(() => {
+    const accessTokenInterval = async () => {
+      try {
+        const response = await fetch(
+          `http://${window.location.host}/refreshToken`,
+          {
+            credentials: 'include',
+          }
+        );
+
+        const userData = (await response.json()) as User;
+
+        setUser((prevState) => ({
+          ...prevState,
+          authToken: userData.authToken,
+        }));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const acTokenIntervalId = setInterval(
+      () => accessTokenInterval(),
+      60 * 15 * 1000
+    );
+
+    if (!user.loggedIn) {
+      console.log('interval closed');
+      clearInterval(acTokenIntervalId);
+    }
+
+    return () => {
+      clearInterval(acTokenIntervalId);
+    };
+  }, [user.loggedIn]);
 
   if (loading) {
     return null;
