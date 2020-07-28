@@ -48,7 +48,6 @@ export const UserContextProvider: FC = ({ children }) => {
           }
         );
 
-        console.log(response.ok);
         if (!response.ok) {
           setLoading(false);
           return;
@@ -97,7 +96,6 @@ export const UserContextProvider: FC = ({ children }) => {
     );
 
     if (!user.loggedIn) {
-      console.log('interval closed');
       clearInterval(acTokenIntervalId);
     }
 
