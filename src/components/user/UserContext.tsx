@@ -19,6 +19,8 @@ interface UserContext {
   setUser: Dispatch<SetStateAction<User>>;
 }
 
+const authTokenRefreshIntervalInMinutes = 60;
+
 export const UserContext = createContext<UserContext>({
   user: {
     loggedIn: false,
@@ -92,7 +94,7 @@ export const UserContextProvider: FC = ({ children }) => {
 
     const acTokenIntervalId = setInterval(
       () => accessTokenInterval(),
-      60 * 15 * 1000
+      60 * authTokenRefreshIntervalInMinutes * 1000
     );
 
     if (!user.loggedIn) {
