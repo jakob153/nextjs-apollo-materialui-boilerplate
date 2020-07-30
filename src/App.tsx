@@ -7,11 +7,7 @@ import {
   RouteComponentProps,
   RouteProps,
 } from 'react-router-dom';
-import {
-  CssBaseline,
-  MuiThemeProvider,
-  createMuiTheme,
-} from '@material-ui/core';
+import { CssBaseline, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 
 import ApolloProviderWithToken from './ApolloProviderWithToken';
@@ -25,13 +21,20 @@ import { UserContext } from './components/user/UserContext';
 const theme = createMuiTheme({
   palette: {
     type: 'dark',
-    primary: blue,
-    secondary: blue,
+    background: {
+      default: '#121212',
+      paper: '#121212',
+    },
+    primary: {
+      main: blue[200],
+    },
+    secondary: {
+      main: blue[200],
+    },
   },
 });
 
 interface PrivateRouteProps extends RouteProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: ComponentType<RouteComponentProps<any>> | ComponentType<any>;
   condition: boolean;
 }
@@ -54,7 +57,7 @@ const App: FC = () => {
 
   return (
     <ApolloProviderWithToken>
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
           <Switch>
@@ -69,7 +72,7 @@ const App: FC = () => {
             <Redirect to="/" />
           </Switch>
         </Router>
-      </MuiThemeProvider>
+      </ThemeProvider>
     </ApolloProviderWithToken>
   );
 };

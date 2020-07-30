@@ -97,8 +97,12 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
 
       handleClose();
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
+      setAlert({
+        severity: 'error',
+        message: 'Invalid User Credentials',
+        show: true,
+      });
     }
   };
 
@@ -112,7 +116,6 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         name="usernameOrEmail"
         onChange={handleChange}
         value={form.usernameOrEmail}
-        variant="outlined"
         fullWidth
       />
       <TextField
@@ -123,7 +126,6 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         name="password"
         onChange={handleChange}
         value={form.password}
-        variant="outlined"
         fullWidth
       />
       <Typography className={classes.marginBottom4}>

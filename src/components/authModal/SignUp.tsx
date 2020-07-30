@@ -90,7 +90,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         show: true,
       });
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -104,7 +103,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         className={classes.marginBottom3}
         onChange={handleChange}
         value={form.username}
-        variant="outlined"
         fullWidth
       />
       <TextField
@@ -114,7 +112,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         className={classes.marginBottom3}
         onChange={handleChange}
         value={form.email}
-        variant="outlined"
         fullWidth
       />
       <TextField
@@ -124,7 +121,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         className={classes.marginBottom3}
         onChange={handleChange}
         value={form.password}
-        variant="outlined"
         fullWidth
       />
       <TextField
@@ -134,7 +130,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         className={classes.marginBottom4}
         onChange={handleChange}
         value={form.password2}
-        variant="outlined"
         fullWidth
       />
       <Box marginBottom={4}>

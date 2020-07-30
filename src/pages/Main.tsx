@@ -1,8 +1,14 @@
 import React, { useEffect, useState, FC } from 'react';
 import qs from 'qs';
-import { Container, makeStyles, Theme } from '@material-ui/core';
+import {
+  Container,
+  Link,
+  makeStyles,
+  Theme,
+  useTheme,
+} from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { useHistory } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 
 import Navbar from '../components/navbar/Navbar';
 
@@ -22,6 +28,8 @@ const Main: FC = () => {
   });
   const history = useHistory();
   const classes = useStyles();
+  const usedTheme = useTheme();
+  console.log(usedTheme);
 
   useEffect(() => {
     const params = qs.parse(history.location.search, {
@@ -67,6 +75,9 @@ const Main: FC = () => {
           </Alert>
         )}
         <h5>MAIN PAGE</h5>
+        <Link component={RouterLink} to="/dashboard">
+          GO TO PROTECTED ROUTE DASHBOARD
+        </Link>
       </Container>
     </>
   );

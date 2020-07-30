@@ -50,6 +50,7 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
 
   const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
+    setAlert((prevState) => ({ ...prevState, show: false }));
   };
 
   const handleCloseAlert = () => {
@@ -64,16 +65,16 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
           <TabComponent label="Sign Up" />
         </Tabs>
       </DialogTitle>
-      {alert.show && (
-        <Alert
-          className={classes.marginTop2}
-          severity={alert.severity}
-          onClose={handleCloseAlert}
-        >
-          {alert.message}
-        </Alert>
-      )}
       <DialogContent>
+        {alert.show && (
+          <Alert
+            className={classes.marginTop2}
+            severity={alert.severity}
+            onClose={handleCloseAlert}
+          >
+            {alert.message}
+          </Alert>
+        )}
         {tab === Tab.LogIn && (
           <LogIn setAlert={setAlert} handleClose={handleClose} />
         )}
