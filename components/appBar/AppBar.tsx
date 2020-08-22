@@ -1,18 +1,18 @@
 import React, { FC, useContext, useState } from 'react';
 import {
-  AppBar,
+  AppBar as AppBarMaterial,
   Box,
   Button,
-  Link,
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+
+import Link from '../link/Link';
 
 import AuthModal from '../authModal/AuthModal';
 
-import { UserContext } from '../user/UserContext';
+import { UserContext } from '../../context/UserContext';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -28,8 +28,8 @@ interface ModalState {
   selectedTab: null | number;
 }
 
-const NavBar: FC = () => {
-  const { user, setUser } = useContext(UserContext);
+const AppBar: FC = () => {
+  const userContext = useContext(UserContext);
   const [showModal, setShowModal] = useState<ModalState>({
     open: false,
     selectedTab: null,
@@ -45,7 +45,12 @@ const NavBar: FC = () => {
   };
 
   const handleLogout = async () => {
-    setUser({ username: '', email: '', loggedIn: false, authToken: '' });
+    userContext?.setUser({
+      username: '',
+      email: '',
+      loggedIn: false,
+      authToken: '',
+    });
 
     try {
       await fetch('/refreshToken', {
@@ -79,22 +84,18 @@ const NavBar: FC = () => {
   return (
     <>
       <Box flexGrow={1}>
-        <AppBar position="static">
+        <AppBarMaterial position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              <Link
-                color="inherit"
-                component={RouterLink}
-                href="#"
-                to="/"
-                underline="none"
-              >
+              <Link href="/" color="inherit">
                 MyApp
               </Link>
             </Typography>
-            {!user.loggedIn ? renderAuthButtons() : renderLogoutButton()}
+            {!userContext?.user.loggedIn
+              ? renderAuthButtons()
+              : renderLogoutButton()}
           </Toolbar>
-        </AppBar>
+        </AppBarMaterial>
       </Box>
       {selectedTab !== null && (
         <AuthModal
@@ -107,4 +108,4 @@ const NavBar: FC = () => {
   );
 };
 
-export default NavBar;
+export default AppBar;

@@ -3,14 +3,13 @@ import { gql, useQuery } from '@apollo/client';
 import {
   Box,
   Container,
-  Link,
   Typography,
   makeStyles,
   Theme,
 } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
 
-import Navbar from '../components/navbar/Navbar';
+import Link from '../components/link/Link';
+import Navbar from '../components/appBar/AppBar';
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -47,9 +46,7 @@ const Dashboard: FC = () => {
         <Typography variant="h6">
           Protected Api Data: {booksData.book}
         </Typography>
-        <Link component={RouterLink} to="/">
-          GO BACK TO MAIN
-        </Link>
+        <Link href="/">GO BACK TO MAIN</Link>
       </Container>
     </>
   );

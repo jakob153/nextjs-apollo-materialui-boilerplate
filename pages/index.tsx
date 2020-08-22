@@ -1,16 +1,9 @@
 import React, { useEffect, useState, FC } from 'react';
-import qs from 'qs';
-import {
-  Container,
-  Link,
-  makeStyles,
-  Theme,
-  useTheme,
-} from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { Container, Snackbar, makeStyles, Theme } from '@material-ui/core';
+import { useRouter } from 'next/router';
 
-import Navbar from '../components/navbar/Navbar';
+import Navbar from '../components/appBar/AppBar';
+import Link from '../components/link/Link';
 
 import { AlertState } from '../types';
 
@@ -26,38 +19,32 @@ const Main: FC = () => {
     message: '',
     show: false,
   });
-  const history = useHistory();
   const classes = useStyles();
-  const usedTheme = useTheme();
-  console.log(usedTheme);
+  const nextRouter = useRouter();
 
   useEffect(() => {
-    const params = qs.parse(history.location.search, {
-      ignoreQueryPrefix: true,
-    });
-
-    if (params?.confirmAccount) {
+    if (nextRouter.query.confirmAccount) {
       setAlert({
-        severity: params.confirmAccount === 'true' ? 'success' : 'error',
+        severity:
+          nextRouter.query.confirmAccount === 'true' ? 'success' : 'error',
         message:
-          params.confirmAccount === 'true'
+          nextRouter.query.confirmAccount === 'true'
             ? 'Account Confirmed! You can now log in.'
             : 'Something went wrong.',
         show: true,
       });
     }
 
-    if (params?.confirmPasswordChange) {
+    if (nextRouter.query.confirmPasswordChange) {
       setAlert({
         severity: 'success',
         message: 'Password Changed! You can now log in with your new Password.',
         show: true,
       });
     }
-  }, [history.location.search]);
+  }, [nextRouter.query]);
 
   const handleAlertClose = () => {
-    history.push(history.location.pathname);
     setAlert((prevState) => ({ ...prevState, show: false }));
   };
 
@@ -66,21 +53,26 @@ const Main: FC = () => {
       <Navbar />
       <Container>
         {alert.show && (
-          <Alert
+          <Snackbar
             className={classes.marginTop4}
-            severity={alert.severity}
             onClose={handleAlertClose}
-          >
-            {alert.message}
-          </Alert>
+            message={alert.message}
+          />
         )}
         <h5>MAIN PAGE</h5>
-        <Link component={RouterLink} to="/dashboard">
-          GO TO PROTECTED ROUTE DASHBOARD
-        </Link>
+        <Link href="/dashboard">GO TO PROTECTED ROUTE DASHBOARD</Link>
       </Container>
     </>
   );
 };
+
+export async function getStaticProps() {
+  return {
+    props: {
+      initialApolloState: {},
+      authToken: '12312414421',
+    },
+  };
+}
 
 export default Main;

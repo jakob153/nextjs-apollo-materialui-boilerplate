@@ -16,7 +16,7 @@ import {
   Theme,
 } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
-import { Alert } from '@material-ui/lab';
+import { Snackbar } from '@material-ui/core';
 
 import { RESET_PASSWORD_MUTATION } from './ResetPassword.mutation';
 
@@ -104,13 +104,12 @@ const ResetPassword: FC<Props> = () => {
         Reset Your Password
       </Typography>
       {alert.show && (
-        <Alert
+        <Snackbar
           className={classes.alert}
-          severity={alert.severity}
           onClose={handleAlertClose}
-        >
-          {alert.message}
-        </Alert>
+          autoHideDuration={5000}
+          message={alert.message}
+        />
       )}
       <Paper className={classes.paper}>
         <form onSubmit={handleSubmit}>

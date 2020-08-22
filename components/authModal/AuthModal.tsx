@@ -4,13 +4,13 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  Snackbar,
   Tab as TabComponent,
   Tabs,
   makeStyles,
   Theme,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
-import { Alert } from '@material-ui/lab';
 
 import LogIn from './LogIn';
 import SignUp from './SignUp';
@@ -67,13 +67,11 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
       </DialogTitle>
       <DialogContent>
         {alert.show && (
-          <Alert
+          <Snackbar
             className={classes.marginTop2}
-            severity={alert.severity}
             onClose={handleCloseAlert}
-          >
-            {alert.message}
-          </Alert>
+            message={alert.message}
+          />
         )}
         {tab === Tab.LogIn && (
           <LogIn setAlert={setAlert} handleClose={handleClose} />

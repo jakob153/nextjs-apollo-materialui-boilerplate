@@ -17,9 +17,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "preserve"
   },
   "include": [
-    "src"
+    "src",
+    "setupTests.ts",
+    "components", "context/UserContext.tsx"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

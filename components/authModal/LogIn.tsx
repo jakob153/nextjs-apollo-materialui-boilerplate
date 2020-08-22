@@ -8,18 +8,18 @@ import React, {
   useState,
 } from 'react';
 import { useMutation } from '@apollo/client';
-import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Button,
-  Link,
   TextField,
   Typography,
   makeStyles,
   Theme,
 } from '@material-ui/core';
 
-import { UserContext } from '../user/UserContext';
+import Link from '../link/Link';
+
+import { UserContext } from '../../context/UserContext';
 
 import { AlertState } from '../../types';
 
@@ -59,7 +59,7 @@ interface LoginResponse {
 const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
   const [form, setForm] = useState({ usernameOrEmail: '', password: '' });
   const [logInMutation] = useMutation<LoginResponse>(LOGIN_MUTATION);
-  const { setUser } = useContext(UserContext);
+  const userContext = useContext(UserContext);
   const classes = useStyles();
 
   const handleChange = (
@@ -88,7 +88,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         return;
       }
 
-      setUser({
+      userContext?.setUser({
         username: response.data.logIn.user.username,
         email: response.data.logIn.user.email,
         loggedIn: true,
@@ -129,9 +129,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
         fullWidth
       />
       <Typography className={classes.marginBottom4}>
-        <Link component={RouterLink} to="/resetPassword">
-          Forgot Password?
-        </Link>
+        <Link href="/resetPassword">Forgot Password?</Link>
       </Typography>
       <Box marginBottom={4}>
         <Button
