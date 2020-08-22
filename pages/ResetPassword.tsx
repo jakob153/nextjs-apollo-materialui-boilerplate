@@ -52,7 +52,6 @@ interface Props {
 const ResetPassword: FC<Props> = () => {
   const [form, setForm] = useState({ username: '', email: '' });
   const [alert, setAlert] = useState<AlertState>({
-    severity: 'info',
     message: '',
     show: false,
   });
@@ -79,7 +78,6 @@ const ResetPassword: FC<Props> = () => {
 
       if (!response.errors?.length) {
         setAlert({
-          severity: 'success',
           message:
             'A Password Reset Link was sent was sent to your mail address.',
           show: true,
@@ -87,7 +85,6 @@ const ResetPassword: FC<Props> = () => {
       }
     } catch (error) {
       setAlert({
-        severity: 'error',
         message: 'Something went wrong!',
         show: true,
       });
@@ -103,14 +100,13 @@ const ResetPassword: FC<Props> = () => {
       <Typography className={classes.title} variant="h5" align="center">
         Reset Your Password
       </Typography>
-      {alert.show && (
-        <Snackbar
-          className={classes.alert}
-          onClose={handleAlertClose}
-          autoHideDuration={5000}
-          message={alert.message}
-        />
-      )}
+      <Snackbar
+        open={alert.show}
+        className={classes.alert}
+        onClose={handleAlertClose}
+        autoHideDuration={5000}
+        message={alert.message}
+      />
       <Paper className={classes.paper}>
         <form onSubmit={handleSubmit}>
           <TextField

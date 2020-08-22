@@ -99,7 +99,6 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
     } catch (error) {
       console.error(error);
       setAlert({
-        severity: 'error',
         message: 'Invalid User Credentials',
         show: true,
       });

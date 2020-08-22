@@ -42,7 +42,6 @@ interface Props {
 const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
   const [tab, setTab] = useState(selectedTab);
   const [alert, setAlert] = useState<AlertState>({
-    severity: 'info',
     message: '',
     show: false,
   });
@@ -66,13 +65,12 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
         </Tabs>
       </DialogTitle>
       <DialogContent>
-        {alert.show && (
-          <Snackbar
-            className={classes.marginTop2}
-            onClose={handleCloseAlert}
-            message={alert.message}
-          />
-        )}
+        <Snackbar
+          open={alert.show}
+          className={classes.marginTop2}
+          onClose={handleCloseAlert}
+          message={alert.message}
+        />
         {tab === Tab.LogIn && (
           <LogIn setAlert={setAlert} handleClose={handleClose} />
         )}

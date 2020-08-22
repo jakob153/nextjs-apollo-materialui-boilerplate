@@ -69,7 +69,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
 
     if (!validateFormResult.formValid) {
       setAlert({
-        severity: 'error',
         message: validateFormResult.messages.join('\n'),
         show: true,
       });
@@ -85,7 +84,6 @@ const SignUp: FC<Props> = ({ setAlert }) => {
       });
 
       setAlert({
-        severity: 'success',
         message: 'A Confirmation Link was sent to your Mail.',
         show: true,
       });

@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Main: FC = () => {
   const [alert, setAlert] = useState<AlertState>({
-    severity: 'info',
     message: '',
     show: false,
   });
@@ -25,8 +24,6 @@ const Main: FC = () => {
   useEffect(() => {
     if (nextRouter.query.confirmAccount) {
       setAlert({
-        severity:
-          nextRouter.query.confirmAccount === 'true' ? 'success' : 'error',
         message:
           nextRouter.query.confirmAccount === 'true'
             ? 'Account Confirmed! You can now log in.'
@@ -37,7 +34,6 @@ const Main: FC = () => {
 
     if (nextRouter.query.confirmPasswordChange) {
       setAlert({
-        severity: 'success',
         message: 'Password Changed! You can now log in with your new Password.',
         show: true,
       });
@@ -52,13 +48,12 @@ const Main: FC = () => {
     <>
       <Navbar />
       <Container>
-        {alert.show && (
-          <Snackbar
-            className={classes.marginTop4}
-            onClose={handleAlertClose}
-            message={alert.message}
-          />
-        )}
+        <Snackbar
+          open={alert.show}
+          className={classes.marginTop4}
+          onClose={handleAlertClose}
+          message={alert.message}
+        />
         <h5>MAIN PAGE</h5>
         <Link href="/dashboard">GO TO PROTECTED ROUTE DASHBOARD</Link>
       </Container>

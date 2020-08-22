@@ -1,1 +1,1 @@
-# react-app-boilerplate
+# nextjs-apollo-materialui-boilerplate
