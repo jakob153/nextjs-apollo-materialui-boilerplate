@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Link from '../link/Link';
+import Link from '../common/Link';
 
 import AuthModal from '../authModal/AuthModal';
 
@@ -53,7 +53,7 @@ const AppBar: FC = () => {
     });
 
     try {
-      await fetch('/refreshToken', {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/refreshToken`, {
         method: 'DELETE',
         credentials: 'include',
       });

@@ -1,26 +1,18 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  FormEvent,
-  SetStateAction,
-  useState,
-} from 'react';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
 import {
   Button,
-  Container,
   Paper,
+  Snackbar,
   TextField,
   Typography,
   makeStyles,
   Theme,
 } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
-import { Snackbar } from '@material-ui/core';
 
 import { RESET_PASSWORD_MUTATION } from './ResetPassword.mutation';
 
-import { AlertState } from '../types';
+import { SnackbarState } from '../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -45,20 +37,21 @@ interface ResetPasswordResponse {
   };
 }
 
-interface Props {
-  setAlert: Dispatch<SetStateAction<AlertState>>;
-}
-
-const ResetPassword: FC<Props> = () => {
+const ResetPassword: FC = () => {
   const [form, setForm] = useState({ username: '', email: '' });
-  const [alert, setAlert] = useState<AlertState>({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     message: '',
     show: false,
   });
   const classes = useStyles();
+
   const [resetPassword] = useMutation<ResetPasswordResponse>(
     RESET_PASSWORD_MUTATION
   );
+
+  const handleSnackbar = () => {
+    setSnackbar((prevState) => ({ ...prevState, show: false }));
+  };
 
   const handleChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -77,36 +70,25 @@ const ResetPassword: FC<Props> = () => {
       });
 
       if (!response.errors?.length) {
-        setAlert({
+        setSnackbar({
           message:
             'A Password Reset Link was sent was sent to your mail address.',
           show: true,
         });
       }
     } catch (error) {
-      setAlert({
+      setSnackbar({
         message: 'Something went wrong!',
         show: true,
       });
     }
   };
 
-  const handleAlertClose = () => {
-    setAlert((prevState) => ({ ...prevState, show: false }));
-  };
-
   return (
-    <Container maxWidth="xs">
+    <>
       <Typography className={classes.title} variant="h5" align="center">
         Reset Your Password
       </Typography>
-      <Snackbar
-        open={alert.show}
-        className={classes.alert}
-        onClose={handleAlertClose}
-        autoHideDuration={5000}
-        message={alert.message}
-      />
       <Paper className={classes.paper}>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -139,7 +121,12 @@ const ResetPassword: FC<Props> = () => {
           </Button>
         </form>
       </Paper>
-    </Container>
+      <Snackbar
+        open={snackbar.show}
+        onClose={handleSnackbar}
+        message={snackbar.message}
+      />
+    </>
   );
 };
 

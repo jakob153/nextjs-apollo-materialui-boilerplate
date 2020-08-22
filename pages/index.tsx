@@ -1,29 +1,21 @@
-import React, { useEffect, useState, FC } from 'react';
-import { Container, Snackbar, makeStyles, Theme } from '@material-ui/core';
+import React, { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { Snackbar, Typography } from '@material-ui/core';
 
-import Navbar from '../components/appBar/AppBar';
-import Link from '../components/link/Link';
+import Link from '../components/common/Link';
 
-import { AlertState } from '../types';
+import { SnackbarState } from '../types';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  marginTop4: {
-    marginTop: theme.spacing(4),
-  },
-}));
-
-const Main: FC = () => {
-  const [alert, setAlert] = useState<AlertState>({
+const Index: FC = () => {
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     message: '',
     show: false,
   });
-  const classes = useStyles();
   const nextRouter = useRouter();
 
   useEffect(() => {
     if (nextRouter.query.confirmAccount) {
-      setAlert({
+      setSnackbar({
         message:
           nextRouter.query.confirmAccount === 'true'
             ? 'Account Confirmed! You can now log in.'
@@ -33,41 +25,28 @@ const Main: FC = () => {
     }
 
     if (nextRouter.query.confirmPasswordChange) {
-      setAlert({
+      setSnackbar({
         message: 'Password Changed! You can now log in with your new Password.',
         show: true,
       });
     }
-  }, [nextRouter.query]);
+  }, []);
 
   const handleAlertClose = () => {
-    setAlert((prevState) => ({ ...prevState, show: false }));
+    setSnackbar((prevState) => ({ ...prevState, show: false }));
   };
 
   return (
     <>
-      <Navbar />
-      <Container>
-        <Snackbar
-          open={alert.show}
-          className={classes.marginTop4}
-          onClose={handleAlertClose}
-          message={alert.message}
-        />
-        <h5>MAIN PAGE</h5>
-        <Link href="/dashboard">GO TO PROTECTED ROUTE DASHBOARD</Link>
-      </Container>
+      <Typography variant="h5">Homesite</Typography>
+      <Link href="/dashboard">GO TO PROTECTED ROUTE DASHBOARD</Link>
+      <Snackbar
+        open={snackbar.show}
+        onClose={handleAlertClose}
+        message={snackbar.message}
+      />
     </>
   );
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      initialApolloState: {},
-      authToken: '12312414421',
-    },
-  };
-}
-
-export default Main;
+export default Index;

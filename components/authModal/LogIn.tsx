@@ -1,27 +1,20 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  FormEvent,
-  SetStateAction,
-  useContext,
-  useState,
-} from 'react';
+import React, { ChangeEvent, FC, FormEvent, useContext, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import {
   Box,
   Button,
+  Snackbar,
   TextField,
   Typography,
   makeStyles,
   Theme,
 } from '@material-ui/core';
 
-import Link from '../link/Link';
+import Link from '../common/Link';
 
 import { UserContext } from '../../context/UserContext';
 
-import { AlertState } from '../../types';
+import { SnackbarState } from '../../types';
 
 import { LOGIN_MUTATION } from './LogIn.mutation';
 
@@ -42,7 +35,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   handleClose: () => void;
-  setAlert: Dispatch<SetStateAction<AlertState>>;
 }
 
 interface LoginResponse {
@@ -56,11 +48,19 @@ interface LoginResponse {
   };
 }
 
-const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
+const LogIn: FC<Props> = ({ handleClose }) => {
   const [form, setForm] = useState({ usernameOrEmail: '', password: '' });
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    message: '',
+    show: false,
+  });
   const [logInMutation] = useMutation<LoginResponse>(LOGIN_MUTATION);
   const userContext = useContext(UserContext);
   const classes = useStyles();
+
+  const handleSnackbar = () => {
+    setSnackbar((prevState) => ({ ...prevState, show: false }));
+  };
 
   const handleChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -98,7 +98,7 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
       handleClose();
     } catch (error) {
       console.error(error);
-      setAlert({
+      setSnackbar({
         message: 'Invalid User Credentials',
         show: true,
       });
@@ -106,41 +106,52 @@ const LogIn: FC<Props> = ({ setAlert, handleClose }) => {
   };
 
   return (
-    <form className={classes.marginTop2} action="POST" onSubmit={handleSubmit}>
-      <TextField
-        autoComplete="email"
-        className={classes.marginBottom3}
-        label="Username Or Email"
-        type="text"
-        name="usernameOrEmail"
-        onChange={handleChange}
-        value={form.usernameOrEmail}
-        fullWidth
-      />
-      <TextField
-        autoComplete="current-password"
-        className={classes.marginBottom1}
-        label="Password"
-        type="password"
-        name="password"
-        onChange={handleChange}
-        value={form.password}
-        fullWidth
-      />
-      <Typography className={classes.marginBottom4}>
-        <Link href="/resetPassword">Forgot Password?</Link>
-      </Typography>
-      <Box marginBottom={4}>
-        <Button
-          type="submit"
-          disabled={!(form.usernameOrEmail && form.password)}
-          variant="contained"
+    <>
+      <form
+        className={classes.marginTop2}
+        action="POST"
+        onSubmit={handleSubmit}
+      >
+        <TextField
+          autoComplete="email"
+          className={classes.marginBottom3}
+          label="Username Or Email"
+          type="text"
+          name="usernameOrEmail"
+          onChange={handleChange}
+          value={form.usernameOrEmail}
           fullWidth
-        >
-          Log In
-        </Button>
-      </Box>
-    </form>
+        />
+        <TextField
+          autoComplete="current-password"
+          className={classes.marginBottom1}
+          label="Password"
+          type="password"
+          name="password"
+          onChange={handleChange}
+          value={form.password}
+          fullWidth
+        />
+        <Typography className={classes.marginBottom4}>
+          <Link href="/resetPassword">Forgot Password?</Link>
+        </Typography>
+        <Box marginBottom={4}>
+          <Button
+            type="submit"
+            disabled={!(form.usernameOrEmail && form.password)}
+            variant="contained"
+            fullWidth
+          >
+            Log In
+          </Button>
+        </Box>
+      </form>
+      <Snackbar
+        open={snackbar.show}
+        onClose={handleSnackbar}
+        message={snackbar.message}
+      />
+    </>
   );
 };
 

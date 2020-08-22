@@ -15,7 +15,7 @@ let apolloClient:
 
 function createApolloClient(authToken: string) {
   const httpLink = createHttpLink({
-    uri: 'http://localhost:8000/graphql',
+    uri: `${process.env.NEXT_PUBLIC_BACKEND}/graphql`,
     credentials: 'include',
   });
 
@@ -57,7 +57,6 @@ export function useApollo(
   initialState: NormalizedCache | NormalizedCacheObject
 ) {
   const userContext = useContext(UserContext);
-  console.log(userContext);
   const store = useMemo(
     () => initializeApollo(initialState, userContext?.user.authToken),
     [initialState]

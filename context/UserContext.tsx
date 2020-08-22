@@ -35,9 +35,12 @@ export const UserContextProvider: FC = ({ children }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/refreshToken`, {
-          credentials: 'include',
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND}/refreshToken`,
+          {
+            credentials: 'include',
+          }
+        );
 
         if (!response.ok) {
           setLoading(false);
@@ -63,9 +66,12 @@ export const UserContextProvider: FC = ({ children }) => {
   useEffect(() => {
     const accessTokenInterval = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/refreshToken`, {
-          credentials: 'include',
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND}/refreshToken`,
+          {
+            credentials: 'include',
+          }
+        );
 
         const userData = (await response.json()) as User;
 

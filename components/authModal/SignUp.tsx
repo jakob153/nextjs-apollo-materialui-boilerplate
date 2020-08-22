@@ -1,15 +1,15 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  FormEvent,
-  SetStateAction,
-  useState,
-} from 'react';
-import { Box, Button, TextField, makeStyles, Theme } from '@material-ui/core';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import {
+  Box,
+  Button,
+  TextField,
+  makeStyles,
+  Theme,
+  Snackbar,
+} from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 
-import { AlertState } from '../../types';
+import { SnackbarState } from '../../types';
 
 import { SIGNUP_MUTATION } from './SignUp.mutation';
 
@@ -28,19 +28,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface Props {
-  setAlert: Dispatch<SetStateAction<AlertState>>;
-}
-
-const SignUp: FC<Props> = ({ setAlert }) => {
+const SignUp: FC = () => {
   const [form, setForm] = useState({
     username: '',
     email: '',
     password: '',
     password2: '',
   });
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    message: '',
+    show: false,
+  });
   const classes = useStyles();
   const [signUpMutation] = useMutation(SIGNUP_MUTATION);
+
+  const handleSnackbar = () => {
+    setSnackbar((prevState) => ({ ...prevState, show: false }));
+  };
 
   const handleChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -68,7 +72,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
     const validateFormResult = validateForm(form.password, form.password2);
 
     if (!validateFormResult.formValid) {
-      setAlert({
+      setSnackbar({
         message: validateFormResult.messages.join('\n'),
         show: true,
       });
@@ -83,7 +87,7 @@ const SignUp: FC<Props> = ({ setAlert }) => {
         },
       });
 
-      setAlert({
+      setSnackbar({
         message: 'A Confirmation Link was sent to your Mail.',
         show: true,
       });
@@ -93,56 +97,63 @@ const SignUp: FC<Props> = ({ setAlert }) => {
   };
 
   return (
-    <form className={classes.marginTop2} onSubmit={handleSubmit}>
-      <TextField
-        name="username"
-        label="Username"
-        type="text"
-        className={classes.marginBottom3}
-        onChange={handleChange}
-        value={form.username}
-        fullWidth
-      />
-      <TextField
-        name="email"
-        label="Email"
-        type="email"
-        className={classes.marginBottom3}
-        onChange={handleChange}
-        value={form.email}
-        fullWidth
-      />
-      <TextField
-        name="password"
-        label="Password"
-        type="password"
-        className={classes.marginBottom3}
-        onChange={handleChange}
-        value={form.password}
-        fullWidth
-      />
-      <TextField
-        name="password2"
-        label="Confirm Password"
-        type="password"
-        className={classes.marginBottom4}
-        onChange={handleChange}
-        value={form.password2}
-        fullWidth
-      />
-      <Box marginBottom={4}>
-        <Button
-          type="submit"
-          disabled={
-            !(form.username && form.email && form.password && form.password2)
-          }
-          variant="contained"
+    <>
+      <form className={classes.marginTop2} onSubmit={handleSubmit}>
+        <TextField
+          name="username"
+          label="Username"
+          type="text"
+          className={classes.marginBottom3}
+          onChange={handleChange}
+          value={form.username}
           fullWidth
-        >
-          Sign Up
-        </Button>
-      </Box>
-    </form>
+        />
+        <TextField
+          name="email"
+          label="Email"
+          type="email"
+          className={classes.marginBottom3}
+          onChange={handleChange}
+          value={form.email}
+          fullWidth
+        />
+        <TextField
+          name="password"
+          label="Password"
+          type="password"
+          className={classes.marginBottom3}
+          onChange={handleChange}
+          value={form.password}
+          fullWidth
+        />
+        <TextField
+          name="password2"
+          label="Confirm Password"
+          type="password"
+          className={classes.marginBottom4}
+          onChange={handleChange}
+          value={form.password2}
+          fullWidth
+        />
+        <Box marginBottom={4}>
+          <Button
+            type="submit"
+            disabled={
+              !(form.username && form.email && form.password && form.password2)
+            }
+            variant="contained"
+            fullWidth
+          >
+            Sign Up
+          </Button>
+        </Box>
+      </form>
+      <Snackbar
+        open={snackbar.show}
+        onClose={handleSnackbar}
+        message={snackbar.message}
+      />
+    </>
   );
 };
 

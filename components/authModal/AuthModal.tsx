@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  Snackbar,
   Tab as TabComponent,
   Tabs,
   makeStyles,
@@ -14,8 +13,6 @@ import { Close } from '@material-ui/icons';
 
 import LogIn from './LogIn';
 import SignUp from './SignUp';
-
-import { AlertState } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   marginTop2: {
@@ -41,19 +38,10 @@ interface Props {
 
 const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
   const [tab, setTab] = useState(selectedTab);
-  const [alert, setAlert] = useState<AlertState>({
-    message: '',
-    show: false,
-  });
   const classes = useStyles();
 
   const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
-    setAlert((prevState) => ({ ...prevState, show: false }));
-  };
-
-  const handleCloseAlert = () => {
-    setAlert((prevState) => ({ ...prevState, show: false }));
   };
 
   return (
@@ -65,16 +53,8 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
         </Tabs>
       </DialogTitle>
       <DialogContent>
-        <Snackbar
-          open={alert.show}
-          className={classes.marginTop2}
-          onClose={handleCloseAlert}
-          message={alert.message}
-        />
-        {tab === Tab.LogIn && (
-          <LogIn setAlert={setAlert} handleClose={handleClose} />
-        )}
-        {tab === Tab.SignUp && <SignUp setAlert={setAlert} />}
+        {tab === Tab.LogIn && <LogIn handleClose={handleClose} />}
+        {tab === Tab.SignUp && <SignUp />}
       </DialogContent>
       <IconButton className={classes.closeButton} onClick={handleClose}>
         <Close />

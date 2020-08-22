@@ -1,14 +1,16 @@
 import React, { FC, useEffect } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { ApolloProvider } from '@apollo/client';
+import { Container, CssBaseline, ThemeProvider } from '@material-ui/core';
 
 import { useApollo } from '../lib/apolloClient';
 
-import theme from '../theme';
-import { ApolloProvider } from '@apollo/client';
 import { UserContextProvider } from '../context/UserContext';
+
+import Navbar from '../components/appBar/AppBar';
+
+import theme from '../theme';
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps.initialApolloState);
@@ -34,7 +36,10 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Component {...pageProps} />
+            <Navbar />
+            <Container>
+              <Component {...pageProps} />
+            </Container>
           </ThemeProvider>
         </ApolloProvider>
       </UserContextProvider>

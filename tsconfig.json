@@ -21,8 +21,7 @@
   },
   "include": [
     "src",
-    "setupTests.ts",
-    "components", "context/UserContext.tsx"
+    "components"
   ],
   "exclude": [
     "node_modules"
