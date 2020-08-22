@@ -11,7 +11,7 @@ const Link: FC<MaterialLinkProps & { href: string }> = ({
   ...rest
 }) => (
   <NextLink href={href}>
-    <MaterialLink href="#" {...rest}>
+    <MaterialLink href={href} {...rest}>
       {children}
     </MaterialLink>
   </NextLink>

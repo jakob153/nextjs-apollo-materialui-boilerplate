@@ -12,7 +12,7 @@ import {
 
 import Link from '../common/Link';
 
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../context/UserContext';
 
 import { SnackbarState } from '../../types';
 

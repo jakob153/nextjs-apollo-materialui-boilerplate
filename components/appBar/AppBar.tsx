@@ -12,7 +12,7 @@ import Link from '../common/Link';
 
 import AuthModal from '../authModal/AuthModal';
 
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../context/UserContext';
 
 const useStyles = makeStyles(() => ({
   root: {

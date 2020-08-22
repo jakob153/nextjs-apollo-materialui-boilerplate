@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 
-import { RESET_PASSWORD_MUTATION } from './ResetPassword.mutation';
+import { RESET_PASSWORD_MUTATION } from '../graphql/ResetPassword.mutation';
 
 import { SnackbarState } from '../types';
 

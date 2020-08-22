@@ -1,15 +1,8 @@
 import React, { FC } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import {
-  Box,
-  Container,
-  Typography,
-  makeStyles,
-  Theme,
-} from '@material-ui/core';
+import { Box, Typography, makeStyles, Theme } from '@material-ui/core';
 
-import Link from '../components/link/Link';
-import Navbar from '../components/appBar/AppBar';
+import Link from '../components/common/Link';
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -38,16 +31,11 @@ const Dashboard: FC = () => {
 
   return (
     <>
-      <Navbar />
-      <Container>
-        <Typography className={classes.title} variant="h4">
-          Protected Dashboard
-        </Typography>
-        <Typography variant="h6">
-          Protected Api Data: {booksData.book}
-        </Typography>
-        <Link href="/">GO BACK TO MAIN</Link>
-      </Container>
+      <Typography className={classes.title} variant="h4">
+        Protected Dashboard
+      </Typography>
+      <Typography variant="h6">Protected Api Data: {booksData.book}</Typography>
+      <Link href="/">GO BACK TO MAIN</Link>
     </>
   );
 };

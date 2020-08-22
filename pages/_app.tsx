@@ -1,25 +1,21 @@
 import React, { FC, useEffect } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { ApolloProvider } from '@apollo/client';
 import { Container, CssBaseline, ThemeProvider } from '@material-ui/core';
 
-import { useApollo } from '../lib/apolloClient';
-
-import { UserContextProvider } from '../context/UserContext';
-
-import Navbar from '../components/appBar/AppBar';
+import { UserContextProvider } from '../components/context/UserContext';
+import ApolloProviderWithToken from '../components/apolloWithToken/ApolloProviderWithToken';
+import AppBar from '../components/appBar/AppBar';
+import ProtectedRoute from '../components/protectedRoute/ProtectedRoute';
 
 import theme from '../theme';
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
-  const apolloClient = useApollo(pageProps.initialApolloState);
-
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
-      jssStyles.parentElement!.removeChild(jssStyles);
+      jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
 
@@ -33,15 +29,19 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         />
       </Head>
       <UserContextProvider>
-        <ApolloProvider client={apolloClient}>
+        <ApolloProviderWithToken
+          initialApolloState={pageProps.initialApolloState}
+        >
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Navbar />
+            <AppBar />
             <Container>
-              <Component {...pageProps} />
+              <ProtectedRoute>
+                <Component {...pageProps} />
+              </ProtectedRoute>
             </Container>
           </ThemeProvider>
-        </ApolloProvider>
+        </ApolloProviderWithToken>
       </UserContextProvider>
     </>
   );

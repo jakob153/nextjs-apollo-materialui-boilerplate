@@ -1,19 +1,17 @@
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   ApolloClient,
   createHttpLink,
   InMemoryCache,
-  NormalizedCache,
   NormalizedCacheObject,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { UserContext } from '../context/UserContext';
 
-let apolloClient:
-  | ApolloClient<NormalizedCache>
-  | ApolloClient<NormalizedCacheObject>;
+type InitialState = NormalizedCacheObject | null;
 
-function createApolloClient(authToken: string) {
+let apolloClient: ApolloClient<NormalizedCacheObject>;
+
+function createApolloClient(authToken?: string) {
   const httpLink = createHttpLink({
     uri: `${process.env.NEXT_PUBLIC_BACKEND}/graphql`,
     credentials: 'include',
@@ -22,7 +20,9 @@ function createApolloClient(authToken: string) {
   const authLink = setContext((_, { headers }) => ({
     headers: {
       ...headers,
-      ...(authToken && { authorization: `Bearer ${authToken}` }),
+      ...(authToken && {
+        authorization: `Bearer ${authToken}`,
+      }),
     },
   }));
 
@@ -33,7 +33,10 @@ function createApolloClient(authToken: string) {
   });
 }
 
-export function initializeApollo(initialState = null, authToken: string) {
+export function initializeApollo(
+  initialState: InitialState = null,
+  authToken?: string
+) {
   const _apolloClient = apolloClient ?? createApolloClient(authToken);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
@@ -53,13 +56,9 @@ export function initializeApollo(initialState = null, authToken: string) {
   return _apolloClient;
 }
 
-export function useApollo(
-  initialState: NormalizedCache | NormalizedCacheObject
-) {
-  const userContext = useContext(UserContext);
-  const store = useMemo(
-    () => initializeApollo(initialState, userContext?.user.authToken),
-    [initialState]
-  );
+export function useApollo(initialState: InitialState, authToken?: string) {
+  const store = useMemo(() => initializeApollo(initialState, authToken), [
+    initialState,
+  ]);
   return store;
 }
