@@ -59,6 +59,7 @@ export function initializeApollo(
 export function useApollo(initialState: InitialState, authToken?: string) {
   const store = useMemo(() => initializeApollo(initialState, authToken), [
     initialState,
+    authToken,
   ]);
   return store;
 }

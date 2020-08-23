@@ -1,7 +1,6 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useContext } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Box, Typography, makeStyles, Theme } from '@material-ui/core';
-import { useRouter } from 'next/router';
 
 import Link from '../components/common/Link';
 import { UserContext } from '../components/context/UserContext';
@@ -15,7 +14,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Dashboard: FC = () => {
   const userContext = useContext(UserContext);
-  const router = useRouter();
   const classes = useStyles();
   const { data: booksData, error } = useQuery(
     gql`
@@ -25,18 +23,20 @@ const Dashboard: FC = () => {
     `
   );
 
-  useEffect(() => {
-    if (!userContext?.user.loggedIn) {
-      router.push('/');
-    }
-  }, [userContext?.user.loggedIn]);
-
   if (error) {
     return <Box>{error.message}</Box>;
   }
 
   if (!booksData) {
     return null;
+  }
+
+  if (!userContext?.user.loggedIn) {
+    return (
+      <Typography className={classes.title} variant="h4">
+        You are not signed in. Please Log In!
+      </Typography>
+    );
   }
 
   return (
