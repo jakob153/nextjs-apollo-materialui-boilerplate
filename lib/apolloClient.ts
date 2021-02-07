@@ -10,23 +10,6 @@ type InitialState = NormalizedCacheObject | null;
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
-function createIsomorphLink() {
-  if (typeof window === 'undefined') {
-    const { SchemaLink } = require('@apollo/client/link/schema');
-    const { schema } = require('./schema');
-
-    // SchemaLink is faster and avoids HTTP Layer
-    return new SchemaLink({ schema });
-  } else {
-    const { HttpLink } = require('@apollo/client/link/http');
-
-    return new HttpLink({
-      uri: '/api/graphql',
-      credentials: 'same-origin',
-    });
-  }
-}
-
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
