@@ -1,43 +1,45 @@
 import { useMemo } from 'react';
 import {
   ApolloClient,
-  createHttpLink,
+  HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
 
 type InitialState = NormalizedCacheObject | null;
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
-function createApolloClient(authToken?: string) {
-  const httpLink = createHttpLink({
-    uri: `${process.env.NEXT_PUBLIC_BACKEND}/graphql`,
-    credentials: 'include',
-  });
+function createIsomorphLink() {
+  if (typeof window === 'undefined') {
+    const { SchemaLink } = require('@apollo/client/link/schema');
+    const { schema } = require('./schema');
 
-  const authLink = setContext((_, { headers }) => ({
-    headers: {
-      ...headers,
-      ...(authToken && {
-        authorization: `Bearer ${authToken}`,
-      }),
-    },
-  }));
+    // SchemaLink is faster and avoids HTTP Layer
+    return new SchemaLink({ schema });
+  } else {
+    const { HttpLink } = require('@apollo/client/link/http');
 
+    return new HttpLink({
+      uri: '/api/graphql',
+      credentials: 'same-origin',
+    });
+  }
+}
+
+function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: authLink.concat(httpLink),
+    link: new HttpLink({
+      uri: `${process.env.NEXT_PUBLIC_BACKEND}/graphql`,
+      credentials: 'include',
+    }),
     cache: new InMemoryCache(),
   });
 }
 
-export function initializeApollo(
-  initialState: InitialState = null,
-  authToken?: string
-) {
-  const _apolloClient = apolloClient ?? createApolloClient(authToken);
+export function initializeApollo(initialState: InitialState = null) {
+  const _apolloClient = apolloClient ?? createApolloClient();
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
@@ -56,10 +58,7 @@ export function initializeApollo(
   return _apolloClient;
 }
 
-export function useApollo(initialState: InitialState, authToken?: string) {
-  const store = useMemo(() => initializeApollo(initialState, authToken), [
-    initialState,
-    authToken,
-  ]);
+export function useApollo(initialState: InitialState) {
+  const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;
 }

@@ -3,8 +3,6 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { Container, CssBaseline, ThemeProvider } from '@material-ui/core';
 
-import { UserContextProvider } from '../components/context/UserContext';
-import ApolloProviderWithToken from '../components/apolloWithToken/ApolloProviderWithToken';
 import AppBar from '../components/appBar/AppBar';
 
 import theme from '../theme';
@@ -27,19 +25,13 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <UserContextProvider>
-        <ApolloProviderWithToken
-          initialApolloState={pageProps.initialApolloState}
-        >
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <AppBar />
-            <Container>
-              <Component {...pageProps} />
-            </Container>
-          </ThemeProvider>
-        </ApolloProviderWithToken>
-      </UserContextProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppBar />
+        <Container>
+          <Component {...pageProps} />
+        </Container>
+      </ThemeProvider>
     </>
   );
 };
