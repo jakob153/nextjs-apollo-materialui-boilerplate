@@ -8,11 +8,17 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core';
-import { useMutation } from '@apollo/client';
-
-import { RESET_PASSWORD_MUTATION } from '../graphql/ResetPassword.mutation';
+import { gql, useMutation } from '@apollo/client';
 
 import { SnackbarState } from '../types';
+
+const RESET_PASSWORD = gql`
+  mutation resetPassword($username: String!, $email: String!) {
+    resetPassword(username: $username, email: $email) {
+      success
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -45,9 +51,7 @@ const ResetPassword: FC = () => {
   });
   const classes = useStyles();
 
-  const [resetPassword] = useMutation<ResetPasswordResponse>(
-    RESET_PASSWORD_MUTATION
-  );
+  const [resetPassword] = useMutation<ResetPasswordResponse>(RESET_PASSWORD);
 
   const handleSnackbar = () => {
     setSnackbar((prevState) => ({ ...prevState, show: false }));

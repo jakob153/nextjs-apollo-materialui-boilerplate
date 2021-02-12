@@ -7,12 +7,14 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
-import Link from '../common/Link';
+import { useMutation } from '@apollo/client';
 
 import AuthModal from '../authModal/AuthModal';
+import Link from '../common/Link';
 
 import { UserContext } from '../context/UserContext';
+
+import { LOG_OUT } from './LogOut.mutation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -36,6 +38,8 @@ const AppBar: FC = () => {
   });
   const classes = useStyles();
 
+  const [logOut] = useMutation(LOG_OUT);
+
   const handleClick = (selectedTab: number) => () => {
     setShowModal((prevState) => ({ open: !prevState.open, selectedTab }));
   };
@@ -44,22 +48,14 @@ const AppBar: FC = () => {
     setShowModal((prevState) => ({ open: !prevState.open, selectedTab: null }));
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     userContext?.setUser({
       username: '',
       email: '',
       loggedIn: false,
-      authToken: '',
     });
 
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/refreshToken`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    logOut();
   };
 
   const { open, selectedTab } = showModal;

@@ -92,7 +92,6 @@ const LogIn: FC<Props> = ({ handleClose }) => {
         username: response.data.logIn.user.username,
         email: response.data.logIn.user.email,
         loggedIn: true,
-        authToken: response.data.logIn.user.authToken,
       });
 
       handleClose();
