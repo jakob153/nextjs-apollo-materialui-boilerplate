@@ -32,10 +32,12 @@ interface ModalState {
 
 const AppBar: FC = () => {
   const userContext = useContext(UserContext);
+
   const [showModal, setShowModal] = useState<ModalState>({
     open: false,
     selectedTab: null,
   });
+
   const classes = useStyles();
 
   const [logOut] = useMutation(LOG_OUT);
@@ -58,25 +60,6 @@ const AppBar: FC = () => {
     logOut();
   };
 
-  const { open, selectedTab } = showModal;
-
-  const renderAuthButtons = () => (
-    <>
-      <Button color="inherit" onClick={handleClick(0)}>
-        Log In
-      </Button>
-      <Button color="inherit" onClick={handleClick(1)}>
-        Sign Up
-      </Button>
-    </>
-  );
-
-  const renderLogoutButton = () => (
-    <Button color="inherit" onClick={handleLogout}>
-      Log Out
-    </Button>
-  );
-
   return (
     <>
       <Box flexGrow={1}>
@@ -87,16 +70,27 @@ const AppBar: FC = () => {
                 MyApp
               </Link>
             </Typography>
-            {!userContext?.user.loggedIn
-              ? renderAuthButtons()
-              : renderLogoutButton()}
+            {userContext?.user.loggedIn ? (
+              <>
+                <Button color="inherit" onClick={handleClick(0)}>
+                  Log In
+                </Button>
+                <Button color="inherit" onClick={handleClick(1)}>
+                  Sign Up
+                </Button>
+              </>
+            ) : (
+              <Button color="inherit" onClick={handleLogout}>
+                Log Out
+              </Button>
+            )}
           </Toolbar>
         </AppBarMaterial>
       </Box>
-      {selectedTab !== null && (
+      {showModal.selectedTab !== null && (
         <AuthModal
-          open={open}
-          selectedTab={selectedTab}
+          open={showModal.open}
+          selectedTab={showModal.selectedTab}
           handleClose={handleClose}
         />
       )}

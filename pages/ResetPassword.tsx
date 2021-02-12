@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface ResetPasswordResponse {
   resetPassword: {
     success: boolean;
-    errors: Array<{ path: string; message: string }>;
   };
 }
 
@@ -51,7 +50,21 @@ const ResetPassword: FC = () => {
   });
   const classes = useStyles();
 
-  const [resetPassword] = useMutation<ResetPasswordResponse>(RESET_PASSWORD);
+  const [resetPassword] = useMutation<ResetPasswordResponse>(RESET_PASSWORD, {
+    onCompleted: () => {
+      setSnackbar({
+        message:
+          'A Password Reset Link was sent was sent to your mail address.',
+        show: true,
+      });
+    },
+    onError: () => {
+      setSnackbar({
+        message: 'Something went wrong!',
+        show: true,
+      });
+    },
+  });
 
   const handleSnackbar = () => {
     setSnackbar((prevState) => ({ ...prevState, show: false }));
@@ -60,32 +73,17 @@ const ResetPassword: FC = () => {
   const handleChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    const name = event.target.name;
-    const value = event.target.value;
+    const { name, value } = event.target;
+
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const response = await resetPassword({
-        variables: { username: form.username, email: form.email },
-      });
-
-      if (!response.errors?.length) {
-        setSnackbar({
-          message:
-            'A Password Reset Link was sent was sent to your mail address.',
-          show: true,
-        });
-      }
-    } catch (error) {
-      setSnackbar({
-        message: 'Something went wrong!',
-        show: true,
-      });
-    }
+    resetPassword({
+      variables: { username: form.username, email: form.email },
+    });
   };
 
   return (

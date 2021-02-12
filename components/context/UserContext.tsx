@@ -6,6 +6,9 @@ import React, {
   Dispatch,
   SetStateAction,
 } from 'react';
+import { useQuery } from '@apollo/client';
+
+import { CHECK_SESSION } from './CheckSession.query';
 
 interface User {
   loggedIn: boolean;
@@ -26,6 +29,18 @@ const UserContextProvider: FC = ({ children }) => {
     username: '',
     email: '',
   });
+
+  const { data } = useQuery<Omit<User, 'loggedIn'>, null>(CHECK_SESSION);
+
+  useEffect(() => {
+    if (data) {
+      setUser({
+        loggedIn: true,
+        username: data.username,
+        email: data.email,
+      });
+    }
+  }, [data]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

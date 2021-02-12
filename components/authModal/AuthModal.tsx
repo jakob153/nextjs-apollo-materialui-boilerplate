@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -40,14 +40,10 @@ const AuthModal: FC<Props> = ({ open, handleClose, selectedTab }) => {
   const [tab, setTab] = useState(selectedTab);
   const classes = useStyles();
 
-  const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
-    setTab(newValue);
-  };
-
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
       <DialogTitle>
-        <Tabs value={tab} onChange={handleChange}>
+        <Tabs value={tab} onChange={(event, newValue) => setTab(newValue)}>
           <TabComponent label="Log In" />
           <TabComponent label="Sign Up" />
         </Tabs>

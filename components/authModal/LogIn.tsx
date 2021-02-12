@@ -14,9 +14,9 @@ import Link from '../common/Link';
 
 import { UserContext } from '../context/UserContext';
 
-import { SnackbarState } from '../../types';
+import { LOGIN } from './LogIn.mutation';
 
-import { LOGIN_MUTATION } from './LogIn.mutation';
+import { SnackbarState } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   marginTop2: {
@@ -33,10 +33,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface Props {
-  handleClose: () => void;
-}
-
 interface LoginResponse {
   logIn: {
     user: {
@@ -44,8 +40,11 @@ interface LoginResponse {
       email: string;
       authToken: string;
     };
-    errors: Array<{ path: string; message: string }>;
   };
+}
+
+interface Props {
+  handleClose: () => void;
 }
 
 const LogIn: FC<Props> = ({ handleClose }) => {
@@ -54,7 +53,18 @@ const LogIn: FC<Props> = ({ handleClose }) => {
     message: '',
     show: false,
   });
-  const [logInMutation] = useMutation<LoginResponse>(LOGIN_MUTATION);
+
+  const [logInMutation] = useMutation<LoginResponse>(LOGIN, {
+    onCompleted: () => {
+      handleClose();
+    },
+    onError: () => {
+      setSnackbar({
+        message: 'Invalid User Credentials',
+        show: true,
+      });
+    },
+  });
   const userContext = useContext(UserContext);
   const classes = useStyles();
 
@@ -65,8 +75,8 @@ const LogIn: FC<Props> = ({ handleClose }) => {
   const handleChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    const name = event.target.name;
-    const value = event.target.value;
+    const { name, value } = event.target;
+
     setForm((prevState) => ({
       ...prevState,
       [name]: value,
@@ -76,32 +86,24 @@ const LogIn: FC<Props> = ({ handleClose }) => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const response = await logInMutation({
-        variables: {
-          usernameOrEmail: form.usernameOrEmail,
-          password: form.password,
-        },
-      });
+    const response = await logInMutation({
+      variables: {
+        usernameOrEmail: form.usernameOrEmail,
+        password: form.password,
+      },
+    });
 
-      if (!(handleClose && response.data)) {
-        return;
-      }
-
-      userContext?.setUser({
-        username: response.data.logIn.user.username,
-        email: response.data.logIn.user.email,
-        loggedIn: true,
-      });
-
-      handleClose();
-    } catch (error) {
-      console.error(error);
-      setSnackbar({
-        message: 'Invalid User Credentials',
-        show: true,
-      });
+    if (!response.data) {
+      return;
     }
+
+    userContext?.setUser({
+      username: response.data.logIn.user.username,
+      email: response.data.logIn.user.email,
+      loggedIn: true,
+    });
+
+    handleClose();
   };
 
   return (

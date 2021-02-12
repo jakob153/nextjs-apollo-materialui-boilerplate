@@ -9,9 +9,9 @@ import {
 } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 
-import { SnackbarState } from '../../types';
+import { SIGNUP } from './SignUp.mutation';
 
-import { SIGNUP_MUTATION } from './SignUp.mutation';
+import { SnackbarState } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   marginTop2: {
@@ -40,7 +40,14 @@ const SignUp: FC = () => {
     show: false,
   });
   const classes = useStyles();
-  const [signUpMutation] = useMutation(SIGNUP_MUTATION);
+  const [signUpMutation] = useMutation(SIGNUP, {
+    onCompleted: () => {
+      setSnackbar({
+        message: 'A Confirmation Link was sent to your Mail.',
+        show: true,
+      });
+    },
+  });
 
   const handleSnackbar = () => {
     setSnackbar((prevState) => ({ ...prevState, show: false }));
@@ -66,7 +73,7 @@ const SignUp: FC = () => {
     return { formValid: !messages.length, messages };
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const validateFormResult = validateForm(form.password, form.password2);
@@ -76,24 +83,17 @@ const SignUp: FC = () => {
         message: validateFormResult.messages.join('\n'),
         show: true,
       });
+
       return;
     }
-    try {
-      await signUpMutation({
-        variables: {
-          username: form.username,
-          email: form.email,
-          password: form.password,
-        },
-      });
 
-      setSnackbar({
-        message: 'A Confirmation Link was sent to your Mail.',
-        show: true,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    signUpMutation({
+      variables: {
+        username: form.username,
+        email: form.email,
+        password: form.password,
+      },
+    });
   };
 
   return (
