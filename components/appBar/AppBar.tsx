@@ -71,6 +71,10 @@ const AppBar: FC = () => {
               </Link>
             </Typography>
             {userContext?.user.loggedIn ? (
+              <Button color="inherit" onClick={handleLogout}>
+                Log Out
+              </Button>
+            ) : (
               <>
                 <Button color="inherit" onClick={handleClick(0)}>
                   Log In
@@ -79,10 +83,6 @@ const AppBar: FC = () => {
                   Sign Up
                 </Button>
               </>
-            ) : (
-              <Button color="inherit" onClick={handleLogout}>
-                Log Out
-              </Button>
             )}
           </Toolbar>
         </AppBarMaterial>

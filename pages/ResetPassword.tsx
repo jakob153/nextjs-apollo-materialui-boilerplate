@@ -14,9 +14,7 @@ import { SnackbarState } from '../types';
 
 const RESET_PASSWORD = gql`
   mutation resetPassword($username: String!, $email: String!) {
-    resetPassword(username: $username, email: $email) {
-      success
-    }
+    resetPassword(username: $username, email: $email)
   }
 `;
 
