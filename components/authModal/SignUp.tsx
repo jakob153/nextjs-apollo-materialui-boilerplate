@@ -40,6 +40,7 @@ const SignUp: FC = () => {
     show: false,
   });
   const classes = useStyles();
+
   const [signUpMutation] = useMutation(SIGNUP, {
     onCompleted: () => {
       setSnackbar({

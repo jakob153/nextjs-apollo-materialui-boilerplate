@@ -38,7 +38,6 @@ interface LoginResponse {
     user: {
       username: string;
       email: string;
-      authToken: string;
     };
   };
 }

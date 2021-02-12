@@ -34,12 +34,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface ResetPasswordResponse {
-  resetPassword: {
-    success: boolean;
-  };
-}
-
 const ResetPassword: FC = () => {
   const [form, setForm] = useState({ username: '', email: '' });
   const [snackbar, setSnackbar] = useState<SnackbarState>({
@@ -48,7 +42,7 @@ const ResetPassword: FC = () => {
   });
   const classes = useStyles();
 
-  const [resetPassword] = useMutation<ResetPasswordResponse>(RESET_PASSWORD, {
+  const [resetPassword] = useMutation(RESET_PASSWORD, {
     onCompleted: () => {
       setSnackbar({
         message:
