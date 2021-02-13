@@ -8,24 +8,14 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 
 import { UserContext } from '../../components/context/UserContext';
 
-import { SnackbarState } from '../../types';
+import { CHANGE_PASSWORD } from './ChangePassword.mutation';
 
-const CHANGE_PASSWORD = gql`
-  mutation changePassword(
-    $newPassword: String!
-    $changePasswordToken: String!
-  ) {
-    changePassword(
-      newPassword: $newPassword
-      changePasswordToken: $changePasswordToken
-    )
-  }
-`;
+import { SnackbarState } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {

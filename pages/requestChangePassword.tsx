@@ -8,15 +8,11 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+
+import { SEND_CHANGE_PASSWORD_MAIL } from './SendChangePasswordMail.mutation';
 
 import { SnackbarState } from '../types';
-
-const SEND_CHANGE_PASSWORD_MAIL = gql`
-  mutation sendChangePasswordMail($email: String!) {
-    sendChangePasswordMail(email: $email)
-  }
-`;
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
