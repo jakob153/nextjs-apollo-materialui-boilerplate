@@ -47,11 +47,14 @@ interface Props {
 }
 
 const LogIn: FC<Props> = ({ handleClose }) => {
+  const userContext = useContext(UserContext);
+
   const [form, setForm] = useState({ usernameOrEmail: '', password: '' });
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     message: '',
     show: false,
   });
+  const classes = useStyles();
 
   const [logInMutation] = useMutation<LoginResponse>(LOGIN, {
     onCompleted: () => {
@@ -64,8 +67,6 @@ const LogIn: FC<Props> = ({ handleClose }) => {
       });
     },
   });
-  const userContext = useContext(UserContext);
-  const classes = useStyles();
 
   const handleSnackbar = () => {
     setSnackbar((prevState) => ({ ...prevState, show: false }));

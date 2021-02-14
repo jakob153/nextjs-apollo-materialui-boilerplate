@@ -17,14 +17,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   marginTop2: {
     marginTop: theme.spacing(2),
   },
-  marginBottom2: {
-    marginBottom: theme.spacing(2),
-  },
   marginBottom3: {
     marginBottom: theme.spacing(3),
-  },
-  marginBottom4: {
-    marginBottom: theme.spacing(7),
   },
 }));
 
@@ -57,8 +51,8 @@ const SignUp: FC = () => {
   const handleChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    const name = event.target.name;
-    const value = event.target.value;
+    const { name, value } = event.target;
+
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
@@ -131,7 +125,7 @@ const SignUp: FC = () => {
           name="password2"
           label="Confirm Password"
           type="password"
-          className={classes.marginBottom4}
+          className={classes.marginBottom3}
           onChange={handleChange}
           value={form.password2}
           fullWidth

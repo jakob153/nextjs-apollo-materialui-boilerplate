@@ -15,9 +15,6 @@ import LogIn from './LogIn';
 import SignUp from './SignUp';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  marginTop2: {
-    marginTop: theme.spacing(2),
-  },
   closeButton: {
     position: 'absolute',
     top: '1px',

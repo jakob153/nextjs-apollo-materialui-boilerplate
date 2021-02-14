@@ -17,9 +17,6 @@ import { UserContext } from '../context/UserContext';
 import { LOG_OUT } from './LogOut.mutation';
 
 const useStyles = makeStyles(() => ({
-  root: {
-    flexGrow: 1,
-  },
   title: {
     flexGrow: 1,
   },
