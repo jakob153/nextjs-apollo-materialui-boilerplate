@@ -42,6 +42,12 @@ const SignUp: FC = () => {
         show: true,
       });
     },
+    onError: (error) => {
+      setSnackbar({
+        message: error.message || 'Something went wrong.',
+        show: true,
+      });
+    },
   });
 
   const handleSnackbar = () => {
@@ -59,7 +65,7 @@ const SignUp: FC = () => {
   const validateForm = (password: string, password2: string) => {
     const messages = [];
 
-    if (password.length < 5) {
+    if (password.length < 6) {
       messages.push('Password must have at least 6 characters');
     } else if (password !== password2) {
       messages.push('Passwords do not match');

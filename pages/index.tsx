@@ -24,6 +24,8 @@ const Index: FC = () => {
           message: 'Account Confirmed! You can now log in.',
           show: true,
         });
+
+        router.replace('/');
       },
       onError: () => {
         setSnackbar({

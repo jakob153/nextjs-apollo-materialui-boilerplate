@@ -57,7 +57,13 @@ const LogIn: FC<Props> = ({ handleClose }) => {
   const classes = useStyles();
 
   const [logInMutation] = useMutation<LoginResponse>(LOGIN, {
-    onCompleted: () => {
+    onCompleted: (data) => {
+      userContext?.setUser({
+        username: data.logIn.user.username,
+        email: data.logIn.user.email,
+        loggedIn: true,
+      });
+
       handleClose();
     },
     onError: () => {
@@ -83,27 +89,15 @@ const LogIn: FC<Props> = ({ handleClose }) => {
     }));
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await logInMutation({
+    logInMutation({
       variables: {
         usernameOrEmail: form.usernameOrEmail,
         password: form.password,
       },
     });
-
-    if (!response.data) {
-      return;
-    }
-
-    userContext?.setUser({
-      username: response.data.logIn.user.username,
-      email: response.data.logIn.user.email,
-      loggedIn: true,
-    });
-
-    handleClose();
   };
 
   return (
